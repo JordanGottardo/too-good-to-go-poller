@@ -1,0 +1,162 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Resources": {
+        "TgtgPollerLambdaRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName": "tgtg-poller-lambda-role",
+
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": ["sts:AssumeRole"],
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": ["lambda.amazonaws.com"]
+                            }
+                        }
+                    ],
+                    "Version": "2012-10-17"
+                },
+                "Policies": [
+                    {
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": "logs:CreateLogGroup",
+                                    "Resource": {
+                                        "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*"
+                                    }
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "logs:CreateLogStream",
+                                        "logs:PutLogEvents"
+                                    ],
+                                    "Resource": [
+                                        {
+                                            "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/tgtg-poller-lambda:*"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "PolicyName": "CloudwatchLogsInlinePolicy"
+                    }
+                ],
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess",
+                    "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
+                ],
+                "Path": "/"
+            }
+        },
+        "TgtgPollerLambda": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "Role": {
+                    "Fn::GetAtt": ["TgtgPollerLambdaRole", "Arn"]
+                },
+                "FunctionName": "tgtg-poller-lambda",
+                "Code": {
+                    "ImageUri": "166718199143.dkr.ecr.eu-central-1.amazonaws.com/tgtg-poller"
+                },
+                "PackageType": "Image",
+                "Timeout": 180
+            }
+        },
+        "tgtgTokens": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+                "KeySchema": [
+                    {
+                        "AttributeName": "email",
+                        "KeyType": "HASH"
+                    }
+                ],
+                "AttributeDefinitions": [
+                    {
+                        "AttributeName": "email",
+                        "AttributeType": "S"
+                    }
+                ],
+                "GlobalSecondaryIndexes": [],
+                "BillingMode": "PROVISIONED",
+                "TableName": "tgtgTokens",
+                "ProvisionedThroughput": {
+                    "ReadCapacityUnits": 1,
+                    "WriteCapacityUnits": 1
+                }
+            }
+        },
+        "TabletgtgTokensReadCapacityScalableTarget": {
+            "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+            "DependsOn": "tgtgTokens",
+            "Properties": {
+                "ServiceNamespace": "dynamodb",
+                "ResourceId": "table/tgtgTokens",
+                "ScalableDimension": "dynamodb:table:ReadCapacityUnits",
+                "MinCapacity": 1,
+                "MaxCapacity": 10,
+                "RoleARN": {
+                    "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/dynamodb.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+                }
+            }
+        },
+        "TabletgtgTokensReadCapacityScalingPolicy": {
+            "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+            "DependsOn": "TabletgtgTokensReadCapacityScalableTarget",
+            "Properties": {
+                "ServiceNamespace": "dynamodb",
+                "ResourceId": "table/tgtgTokens",
+                "ScalableDimension": "dynamodb:table:ReadCapacityUnits",
+                "PolicyName": "tgtgTokens-read-capacity-scaling-policy",
+                "PolicyType": "TargetTrackingScaling",
+                "TargetTrackingScalingPolicyConfiguration": {
+                    "PredefinedMetricSpecification": {
+                        "PredefinedMetricType": "DynamoDBReadCapacityUtilization"
+                    },
+                    "ScaleOutCooldown": 60,
+                    "ScaleInCooldown": 60,
+                    "TargetValue": 70
+                }
+            }
+        },
+        "TabletgtgTokensWriteCapacityScalableTarget": {
+            "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+            "DependsOn": "tgtgTokens",
+            "Properties": {
+                "ServiceNamespace": "dynamodb",
+                "ResourceId": "table/tgtgTokens",
+                "ScalableDimension": "dynamodb:table:WriteCapacityUnits",
+                "MinCapacity": 1,
+                "MaxCapacity": 10,
+                "RoleARN": {
+                    "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/dynamodb.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+                }
+            }
+        },
+        "TabletgtgTokensWriteCapacityScalingPolicy": {
+            "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+            "DependsOn": "TabletgtgTokensWriteCapacityScalableTarget",
+            "Properties": {
+                "ServiceNamespace": "dynamodb",
+                "ResourceId": "table/tgtgTokens",
+                "ScalableDimension": "dynamodb:table:WriteCapacityUnits",
+                "PolicyName": "tgtgTokens-write-capacity-scaling-policy",
+                "PolicyType": "TargetTrackingScaling",
+                "TargetTrackingScalingPolicyConfiguration": {
+                    "PredefinedMetricSpecification": {
+                        "PredefinedMetricType": "DynamoDBWriteCapacityUtilization"
+                    },
+                    "ScaleOutCooldown": 60,
+                    "ScaleInCooldown": 60,
+                    "TargetValue": 70
+                }
+            }
+        }
+    }
+}
