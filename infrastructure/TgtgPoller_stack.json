@@ -4,7 +4,7 @@
         "TgtgPollerLambdaRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
-                "RoleName": "tgtg-poller-lambda-role-test",
+                "RoleName": "tgtg-poller-lambda-role",
 
                 "AssumeRolePolicyDocument": {
                     "Statement": [
