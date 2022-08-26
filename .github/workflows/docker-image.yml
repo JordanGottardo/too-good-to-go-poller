@@ -24,31 +24,31 @@ jobs:
         # The AWS access key id
         access_key_id: test123
         # The AWS secret access key
-        secret_access_key: 
+        secret_access_key: ${{ secrets.AWS_ACCOUNT_ID }}
         # AWS Account ID
-        account_id: 
+        account_id: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         # A role to assume under the account_id account.
-        assume_role: # optional, default is 
+        #assume_role: # optional, default is 
         # Name of your ECR repository
-        repo: 
+        repo: tgtg-poller
         # The AWS region
-        region: 
+        region: eu-central-1
         # Set this to true to create the repository if it does not already exist
-        create_repo: # optional
+        #create_repo: # optional
         # Set this to true to set a policy on the repository
-        set_repo_policy: # optional
+        #set_repo_policy: # optional
         # Set this to repository policy statement json file. only used if the set_repo_policy is set to true
-        repo_policy_file: # optional, default is repo-policy.json
+        #repo_policy_file: # optional, default is repo-policy.json
         # Comma-separated string of ECR image tags
-        tags: # optional, default is latest
+        #tags: # optional, default is latest
         # Name of Dockerfile to use
-        dockerfile: # optional, default is Dockerfile
+        #dockerfile: # optional, default is Dockerfile
         # Extra flags to pass to docker build (see docs.docker.com/engine/reference/commandline/build)
-        extra_build_args: # optional, default is 
+        #extra_build_args: # optional, default is 
         # Images to use as cache for the docker build (see `--cache-from` argument docs.docker.com/engine/reference/commandline/build)
-        cache_from: # optional, default is 
+        #cache_from: # optional, default is 
         # Path to Dockerfile, defaults to the working directory
-        path: # optional, default is .
+        #path: # optional, default is .
         # Relative path from top-level to script to run before Docker build
-        prebuild_script: # optional
+        #prebuild_script: # optional
       
