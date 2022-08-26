@@ -62,7 +62,7 @@
                 },
                 "FunctionName": "tgtg-poller-lambda",
                 "Code": {
-                    "ImageUri": "166718199143.dkr.ecr.eu-central-1.amazonaws.com/tgtg-poller"
+                    "ImageUri": "166718199143.dkr.ecr.eu-central-1.amazonaws.com/tgtg-poller:latest"
                 },
                 "PackageType": "Image",
                 "Timeout": 180

@@ -1,7 +1,7 @@
 import logging
 from fastapi import FastAPI
 
-from too_good_to_go_client import TooGoodToGoClient
+# from too_good_to_go_client import TooGoodToGoClient
 
 
 logging.basicConfig(format="%(threadName)s:%(message)s")
@@ -16,14 +16,15 @@ app = FastAPI()
 
 @app.get("/items")
 def get_items():
-    tgtgClient = TooGoodToGoClient("jordangottardo@libero.it")
-    items = tgtgClient.get_items()
-    logger.info(items)
+    # tgtgClient = TooGoodToGoClient("jordangottardo@libero.it")
+    # items = tgtgClient.get_items()
+    # logger.info(items)
     return {"message": "Hello World"}
+
 
 @app.get("/credentials")
 def get_credentials():
-    tgtgClient = TooGoodToGoClient("jordangottardo@libero.it")
-    credentials = tgtgClient.get_credentials()
+    # tgtgClient = TooGoodToGoClient("jordangottardo@libero.it")
+    # credentials = tgtgClient.get_credentials()
     logger.info("test")
-    logger.info(credentials)
+    # logger.info(credentials)
