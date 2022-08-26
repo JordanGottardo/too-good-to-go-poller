@@ -13,12 +13,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    #- uses: actions/checkout@v3
+    - uses: actions/checkout@v3
     #- name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag too-good-to-go-poller:$(date +%s)
     - name: AWS ECR
   # You may pin to the exact commit or the version.
   # uses: kciter/aws-ecr-action@79255b7c5aa03dbf6d7c46cff2bfd049874cd98d
+      
       uses: kciter/aws-ecr-action@v4
       with:
         # The AWS access key id
@@ -48,7 +49,7 @@ jobs:
         # Images to use as cache for the docker build (see `--cache-from` argument docs.docker.com/engine/reference/commandline/build)
         #cache_from: # optional, default is 
         # Path to Dockerfile, defaults to the working directory
-        path: too-good-to-go-poller
+        # path: too-good-to-go-poller
         # Relative path from top-level to script to run before Docker build
         #prebuild_script: # optional
       
