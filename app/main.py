@@ -30,8 +30,9 @@ def get_credentials():
     logger.info("test")
     # logger.info(credentials)
 
+
 @app.get("/ping", name="Healthcheck", tags=["Healthcheck"])
 async def healthcheck():
-    return {"Success": "Pong!"}
+    return {"Success": "Pong!!!!"}
 
 handler = Mangum(app)
