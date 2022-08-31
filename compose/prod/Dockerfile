@@ -5,6 +5,6 @@ COPY requirements/prod.txt ${LAMBDA_TASK_ROOT}
 RUN python3 -m ensurepip
 RUN pip install -r prod.txt
 
-ADD src ${LAMBDA_TASK_ROOT}
+ADD app ${LAMBDA_TASK_ROOT}
 
 CMD ["main.handler"]
