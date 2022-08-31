@@ -13,34 +13,29 @@ logger.setLevel(logging.DEBUG)
 
 logger.info("I setup complete")
 logger.debug("D setup complete")
+email = "jordangottardo@libero.it"
 
 app = FastAPI()
 
 
 @app.get("/items")
 def get_items():
-    # tgtgClient = TooGoodToGoClient("jordangottardo@libero.it")
-    # items = tgtgClient.get_items()
-    # logger.info(items)
-    dynamodb_client = boto3.client("dynamodb")
-    response = dynamodb_client.get_item(
-        TableName="tgtgTokens",
-        Key={
-            'email': {'S': 'test@gmail.com'}
-        }
-    )
-    print(response['Item'])
+    tokens = get_record_from_tokens_table(email)
+    tgtgClient = TooGoodToGoClient(email, access_token=tokens["accessToken"], refresh_token=tokens["refreshToken"], user_id=tokens["userId"])
+    items = tgtgClient.get_items()
+    logger.info(items)
 
-    return {"message": "Hello World"}
+    return {"items": items}
 
 
 @app.get("/credentials")
 def get_credentials():
-    email = "jordangottardo@libero.it"
-    get_record_from_tokens_table(email)
+    
     tgtgClient = TooGoodToGoClient(email)
     credentials = tgtgClient.get_credentials()
     logger.info(credentials)
+
+    return credentials
 
 
 @app.get("/ping", name="Healthcheck", tags=["Healthcheck"])

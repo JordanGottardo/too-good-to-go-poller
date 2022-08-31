@@ -13,6 +13,15 @@ class TooGoodToGoClient:
         self.email = email
         self.client = TgtgClient(email=email)
 
+    def __init__(self, accessToken, refreshToken, userId):
+        self.__initLogging()
+
+        self.logger.info(
+            f"TooGoodToGoClient Constructor: initializing for user with id {userId}, access token {accessToken}, refresh token {refreshToken}")
+
+        self.client = TgtgClient(
+            access_token=accessToken, refresh_token=refreshToken, user_id=userId)
+
     def get_items(self):
         return self.client.get_items()
 
