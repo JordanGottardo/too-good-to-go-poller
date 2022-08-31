@@ -1,6 +1,7 @@
 import logging
 from fastapi import FastAPI
 from mangum import Mangum
+from boto3.dynamodb import dynamodb_client
 
 # from too_good_to_go_client import TooGoodToGoClient
 
@@ -20,6 +21,14 @@ def get_items():
     # tgtgClient = TooGoodToGoClient("jordangottardo@libero.it")
     # items = tgtgClient.get_items()
     # logger.info(items)
+    response = dynamodb_client.get_item(
+    TableName="tgtgTokens",
+    Key={
+        'email': {'S': 'test@gmail.com'}
+    }
+)
+    print(response['Item'])
+
     return {"message": "Hello World"}
 
 
