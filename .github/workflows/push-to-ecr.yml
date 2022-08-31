@@ -39,14 +39,14 @@ jobs:
         #repo_policy_file: # optional, default is repo-policy.json
         # Comma-separated string of ECR image tags
         #tags: # optional, default is latest
-        # Name of Dockerfile to use
-        #dockerfile: # optional, default is Dockerfile
+        # Name of Dockerfile to use optional, default is Dockerfile
+        dockerfile: ./compose/prod/Dockerfile
         # Extra flags to pass to docker build (see docs.docker.com/engine/reference/commandline/build)
         #extra_build_args: # optional, default is 
         # Images to use as cache for the docker build (see `--cache-from` argument docs.docker.com/engine/reference/commandline/build)
         #cache_from: # optional, default is 
         # Path to Dockerfile, defaults to the working directory
-        path: ./compose/prod/
+        path: ./compose/prod
         # Relative path from top-level to script to run before Docker build
         #prebuild_script: # optional
     - name: AWS Lambda Deploy
