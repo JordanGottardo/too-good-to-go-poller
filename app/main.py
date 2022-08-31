@@ -36,9 +36,9 @@ def get_items():
 
 @app.get("/credentials")
 def get_credentials():
-    mail = "jordangottardo@libero.it"
-    get_record_from_tokens_table(mail)
-    tgtgClient = TooGoodToGoClient(mail)
+    email = "jordangottardo@libero.it"
+    get_record_from_tokens_table(email)
+    tgtgClient = TooGoodToGoClient(email)
     credentials = tgtgClient.get_credentials()
     logger.info(credentials)
 
@@ -59,11 +59,12 @@ def get_record_from_tokens_table(email: string):
 
     print(response)
 
+    item = response["Item"]
     return {
-        "email": response["email"],
-        "accessToken": response["accessToken"],
-        "refreshToken": response["refreshToken"],
-        "userId": response["userId"]
+        "email": item["email"]["S"],
+        "accessToken": item["accessToken"]["S"],
+        "refreshToken": item["refreshToken"]["S"],
+        "userId": item["userId"]["S"]
     }
 
 
