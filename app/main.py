@@ -21,7 +21,7 @@ app = FastAPI()
 @app.get("/items")
 def get_items():
     tokens = get_record_from_tokens_table(email)
-    tgtgClient = TooGoodToGoClient(email, tokens["accessToken"], tokens["refreshToken"], tokens["userId"])
+    tgtgClient = TooGoodToGoClient(tokens["accessToken"], tokens["refreshToken"], tokens["userId"])
     items = tgtgClient.get_items()
     logger.info(items)
 
