@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from mangum import Mangum
 import boto3
 
-# from too_good_to_go_client import TooGoodToGoClient
+from too_good_to_go_client import TooGoodToGoClient
 
 
 logging.basicConfig(format="%(threadName)s:%(message)s")
@@ -35,10 +35,10 @@ def get_items():
 
 @app.get("/credentials")
 def get_credentials():
-    # tgtgClient = TooGoodToGoClient("jordangottardo@libero.it")
-    # credentials = tgtgClient.get_credentials()
+    tgtgClient = TooGoodToGoClient("jordangottardo@libero.it")
+    credentials = tgtgClient.get_credentials()
     logger.info("test")
-    # logger.info(credentials)
+    logger.info(credentials)
 
 
 @app.get("/ping", name="Healthcheck", tags=["Healthcheck"])
