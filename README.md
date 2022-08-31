@@ -15,13 +15,12 @@
 
 # Deploy infrastructure
 
-NoSQL Workbench used to model DynamoDB tables
+-   Deploy prereq (ECR):
+    `aws cloudformation deploy --template-file .\TgtgPoller_ecr_stack.json --stack-name TgTgPollerPrereq --capabilities CAPABILITY_NAMED_IAM --profile Personal`
 
-`aws cloudformation deploy --template-file .\TgtgPoller_stack.json --stack-name TgTgPoller --capabilities CAPABILITY_NAMED_IAM --profile Personal`
+-   Deploy rest of infra (NoSQL Workbench used to model DynamoDB tables)
+    `aws cloudformation deploy --template-file .\TgtgPoller_stack.json --stack-name TgTgPoller --capabilities CAPABILITY_NAMED_IAM --profile Personal`
 
-Prereq (ECR):
-`aws cloudformation deploy --template-file .\TgtgPoller_ecr_stack.json --stack-name TgTgPollerPrereq --capabilities CAPABILITY_NAMED_IAM --profile Personal`
-
-# Guide
+# Guide to deploy FastApi as Docker image to Lambda
 
 https://rafrasenberg.com/posts/deploying-fastapi-on-aws-as-a-lambda-container-image/
