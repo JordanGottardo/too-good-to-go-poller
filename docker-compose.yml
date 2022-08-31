@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  lambda-fastapi-prod:
+    build:
+      context: .
+      dockerfile: ./compose/prod/Dockerfile
+    image: 166718199143.dkr.ecr.eu-central-1.amazonaws.com/tgtg-poller:latest
+    container_name: lambda-fastapi-prod
+    ports:
+      - 9000:8080
+
+  lambda-fastapi-dev:
+    build:
+      context: .
+      dockerfile: ./compose/dev/Dockerfile
+    image: lambda-fastapi-dev:latest
+    container_name: lambda-fastapi-dev
+    volumes:
+      - ./src:/usr/src/app/src
+    ports:
+      - 8000:8000

@@ -1,5 +1,6 @@
 import logging
 from fastapi import FastAPI
+from mangum import Mangum
 
 # from too_good_to_go_client import TooGoodToGoClient
 
@@ -28,3 +29,9 @@ def get_credentials():
     # credentials = tgtgClient.get_credentials()
     logger.info("test")
     # logger.info(credentials)
+
+@app.get("/ping", name="Healthcheck", tags=["Healthcheck"])
+async def healthcheck():
+    return {"Success": "Pong!"}
+
+handler = Mangum(app)
