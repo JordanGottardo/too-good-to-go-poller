@@ -3,8 +3,8 @@ import string
 from fastapi import FastAPI
 from mangum import Mangum
 import boto3
-from app.dynamo_db_products_client import DynamoDbProductsClient
-from app.products_repository import ProductsRepository
+from dynamo_db_products_client import DynamoDbProductsClient
+from products_repository import ProductsRepository
 
 from too_good_to_go_client import TooGoodToGoClient
 
