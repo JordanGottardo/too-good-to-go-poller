@@ -3,6 +3,8 @@ import string
 from fastapi import FastAPI
 from mangum import Mangum
 import boto3
+from app.dynamo_db_products_client import DynamoDbProductsClient
+from app.products_repository import ProductsRepository
 
 from too_good_to_go_client import TooGoodToGoClient
 
@@ -14,14 +16,22 @@ logger.setLevel(logging.DEBUG)
 logger.info("I setup complete")
 logger.debug("D setup complete")
 email = "jordangottardo@libero.it"
+productsClient = DynamoDbProductsClient()
+productsRepository = ProductsRepository(productsClient)
 
 app = FastAPI()
 
 
-@app.get("/items")
+@app.post("/items")
 def get_items():
+    return productsRepository.get_items()
+
+
+@app.post("/updateItems")
+def update_items():
     tokens = get_record_from_tokens_table(email)
-    tgtgClient = TooGoodToGoClient(tokens["accessToken"], tokens["refreshToken"], tokens["userId"])
+    tgtgClient = TooGoodToGoClient(
+        tokens["accessToken"], tokens["refreshToken"], tokens["userId"])
     items = tgtgClient.get_items()
     logger.info(items)
 
@@ -30,7 +40,7 @@ def get_items():
 
 @app.get("/credentials")
 def get_credentials():
-    
+
     tgtgClient = TooGoodToGoClient(email)
     credentials = tgtgClient.get_credentials()
     logger.info(credentials)
