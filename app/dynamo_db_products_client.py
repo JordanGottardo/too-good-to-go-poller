@@ -30,9 +30,9 @@ class DynamoDbProductsClient:
             Key={
                 "email": email, "productId": 1
             },
-            UpdateExpression="set info.price=:p, info.name=:n",
+            UpdateExpression="set info.price=:p, info.description=:n",
             ExpressionAttributeValues={
-                ":p": "10", ":n": "name"})
+                ":p": "10", ":n": "myDescription"})
 
     def __get_products_table(self):
         dynamoDb = boto3.resource("dynamodb")
