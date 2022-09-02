@@ -10,18 +10,22 @@ class DynamoDbProductsClient:
         self.logger.info(f"DynamoDbProductsClient Constructor")
 
     def get_products(self, email: str):
-        dynamodb_client = boto3.client("dynamodb")
+        dynamoDbClient = boto3.client("dynamodb")
 
-        response = dynamodb_client.get_item(
-            TableName="tgtgProducts",
-            Key={
-                'email': {'S': email}
-            })
+        # response = dynamodb_client.get_item(
+        #     TableName="tgtgProducts",
+        #     Key={
+        #         'email': {'S': email}
+        #     })
+        productsTable = dynamoDbClient.Table("tgtgProducts")
+
+        response = productsTable.query(
+            KeyConditionExpression=Key('email').eq(email))
 
         self.logger.info(
             f"DynamoDbProductsClient got response from DynamoDB: {response}")
 
-        products = response["Item"]
+        products = response["Items"]
 
         return products
         # {
