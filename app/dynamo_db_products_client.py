@@ -9,7 +9,7 @@ class DynamoDbProductsClient:
 
         self.logger.info(f"DynamoDbProductsClient Constructor")
 
-    def get_items(self, email: str):
+    def get_products(self, email: str):
         dynamodb_client = boto3.client("dynamodb")
 
         response = dynamodb_client.get_item(
@@ -18,18 +18,18 @@ class DynamoDbProductsClient:
                 'email': {'S': email}
             })
 
-        self.logger.info(f"DynamoDbProductsClient got response from DynamoDB: {response}")
+        self.logger.info(
+            f"DynamoDbProductsClient got response from DynamoDB: {response}")
 
-        items = response["Item"]
-      
-        return items
+        products = response["Item"]
+
+        return products
         # {
-            # "email": item["email"]["S"],
-            # "accessToken": item["accessToken"]["S"],
-            # "refreshToken": item["refreshToken"]["S"],
-            # "userId": item["userId"]["S"]
-        # }        
-        
+        # "email": item["email"]["S"],
+        # "accessToken": item["accessToken"]["S"],
+        # "refreshToken": item["refreshToken"]["S"],
+        # "userId": item["userId"]["S"]
+        # }
 
     def __initLogging(self):
         logging.basicConfig(format="%(threadName)s:%(message)s")

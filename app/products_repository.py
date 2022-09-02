@@ -11,8 +11,8 @@ class ProductsRepository:
 
         self.productsClient = productsClient
 
-    def get_items(self, email: str):
-        return self.productsClient.get_items(email)
+    def get_products(self, email: str):
+        return self.productsClient.get_products(email)
 
     def __initLogging(self):
         logging.basicConfig(format="%(threadName)s:%(message)s")

@@ -22,13 +22,13 @@ productsRepository = ProductsRepository(productsClient)
 app = FastAPI()
 
 
-@app.post("/items")
-def get_items():
-    return productsRepository.get_items()
+@app.post("/products")
+def get_products():
+    return productsRepository.get_products()
 
 
-@app.post("/updateItems")
-def update_items():
+@app.post("/updateProducts")
+def update_Products():
     tokens = get_record_from_tokens_table(email)
     tgtgClient = TooGoodToGoClient(
         tokens["accessToken"], tokens["refreshToken"], tokens["userId"])
