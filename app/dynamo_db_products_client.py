@@ -30,7 +30,7 @@ class DynamoDbProductsClient:
             Key={
                 "email": email, "productId": 1
             },
-            UpdateExpression="set info.price=:p, info.name:n",
+            UpdateExpression="set info.price=:p, info.name=:n",
             ExpressionAttributeValues={
                 ":p": "10", ":n": "name"})
 
