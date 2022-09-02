@@ -22,7 +22,7 @@ productsRepository = ProductsRepository(productsClient)
 app = FastAPI()
 
 
-@app.post("/products")
+@app.get("/products")
 def get_products():
     return productsRepository.get_products()
 
