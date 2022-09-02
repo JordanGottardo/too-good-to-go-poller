@@ -157,6 +157,38 @@
                     "TargetValue": 70
                 }
             }
+        },
+        "tgtgProducts": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+                "KeySchema": [
+                    {
+                        "AttributeName": "email",
+                        "KeyType": "HASH"
+                    },
+                    {
+                        "AttributeName": "productId",
+                        "KeyType": "RANGE"
+                    }
+                ],
+                "AttributeDefinitions": [
+                    {
+                        "AttributeName": "email",
+                        "AttributeType": "S"
+                    },
+                    {
+                        "AttributeName": "productId",
+                        "AttributeType": "S"
+                    }
+                ],
+                "GlobalSecondaryIndexes": [],
+                "BillingMode": "PROVISIONED",
+                "TableName": "tgtgProducts",
+                "ProvisionedThroughput": {
+                    "ReadCapacityUnits": 1,
+                    "WriteCapacityUnits": 1
+                }
+            }
         }
     }
 }
