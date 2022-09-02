@@ -28,7 +28,7 @@ class DynamoDbProductsClient:
 
         response = productsTable.update_item(
             Key={
-                "email": email, "productId": 1
+                "email": email, "productId": "1"
             },
             UpdateExpression="set info.price=:p, info.description=:n",
             ExpressionAttributeValues={
