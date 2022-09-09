@@ -3,6 +3,8 @@ import string
 from fastapi import FastAPI
 from mangum import Mangum
 import boto3
+from products_service import ProductsService
+from product import Product
 from dynamo_db_products_client import DynamoDbProductsClient
 from products_repository import ProductsRepository
 from dynamo_db_tokens_client import DynamoDbTokensClient
@@ -21,6 +23,7 @@ logger.debug("D setup complete")
 email = "jordangottardo@libero.it"
 productsClient = DynamoDbProductsClient()
 productsRepository = ProductsRepository(productsClient)
+productsService = ProductsService(productsRepository)
 
 tokensClient = DynamoDbTokensClient()
 tokensRepository = TokensRepository(tokensClient)
@@ -40,6 +43,11 @@ def update_products():
     products = tgtgClient.get_items()
 
     logger.info(f"Products from TgTg: {products}")
+
+    domainProducts = __to_domain_products(products)
+
+    productsService.add_or_update_products(email, domainProducts)
+    
 
     # productsRepository.add_or_update_product(email, {})
     # productsRepository.add_or_update_product(email, {})
@@ -84,5 +92,10 @@ def get_record_from_tokens_table(email: string):
         "userId": item["userId"]["S"]
     }
 
+def __to_domain_products(products):
+    return map(__to_domain_product, products)
+
+def __to_domain_product(product):
+    return Product(product)
 
 handler = Mangum(app)
