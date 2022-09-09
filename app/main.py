@@ -9,7 +9,7 @@ from tokens.dynamo_db_tokens_client import DynamoDbTokensClient
 from tokens.tokens_repository import TokensRepository
 
 
-from tgtg.too_good_to_go_client import TooGoodToGoClient
+from too_good_to_go_client import TooGoodToGoClient
 
 
 logging.basicConfig(format="%(threadName)s:%(message)s")
