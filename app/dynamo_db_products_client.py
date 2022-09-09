@@ -2,6 +2,8 @@ import logging
 import boto3
 from boto3.dynamodb.conditions import Key
 
+from product import Product
+
 
 class DynamoDbProductsClient:
 
@@ -23,16 +25,16 @@ class DynamoDbProductsClient:
 
         return products
 
-    def add_or_update_product(self, email, product):
+    def add_or_update_product(self, email, product: Product):
         productsTable = self.__get_products_table()
 
         response = productsTable.update_item(
             Key={
-                "email": email, "productId": "1"
+                "email": email, "productId": product.id
             },
-            UpdateExpression="set price=:p, description=:n",
+            UpdateExpression="set price=:price, decimals=:decimals, pickupLocation=:pickupLocation, isAvailable=:isAvailable, storeName=:storeName, storeAddress=:storeAddress, storeCity=:storeCity",
             ExpressionAttributeValues={
-                ":p": "10", ":n": "myDescription"})
+                ":price": product.price, ":decimals": product.decimals, ":isAvailable": product.isAvailable, ":storeName": product.store.name, ":storeAddress": product.store.address, ":storeCity": product.store.city})
 
     def __get_products_table(self):
         dynamoDb = boto3.resource("dynamodb")
