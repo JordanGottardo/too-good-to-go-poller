@@ -22,7 +22,7 @@ class ProductsRepository:
     def add_or_update_products(self, email: str, products: list[Product]):
         for product in products:
             self.logger.info(f"ProductsRepository add_or_update_products {product}")
-            # self.add_or_update_product(email, product)
+            self.add_or_update_product(email, product)
 
     def __initLogging(self):
         logging.basicConfig(format="%(threadName)s:%(message)s")
