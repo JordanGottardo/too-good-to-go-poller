@@ -32,9 +32,9 @@ class DynamoDbProductsClient:
             Key={
                 "email": email, "productId": product.id
             },
-            UpdateExpression="set storeName=:storeName, storeAddress=:storeAddress, isAvailable=:isAvailable, price=:price, decimals=:decimals, pickupLocation=:pickupLocation, storeCity=:storeCity, lastUpdatedAt=:lastUpdatedAt",
+            UpdateExpression="set storeName=:storeName, storeAddress=:storeAddress, isAvailable=:isAvailable,  lastUpdatedAt=:lastUpdatedAt, price=:price, decimals=:decimals, pickupLocation=:pickupLocation, storeCity=:storeCity",
             ExpressionAttributeValues={
-                ":price": product.price, ":decimals": product.decimals, ":pickupLocation": product.pickupLocation, ":isAvailable": product.isAvailable, ":storeName": product.store.name, ":storeAddress": product.store.address, ":storeCity": product.store.city, ":lastUpdatedAt": str(product.createdTime)})
+                ":storeName": product.store.name, ":storeAddress": product.store.address, ":isAvailable": product.isAvailable, ":lastUpdatedAt": str(product.createdTime), ":price": product.price, ":decimals": product.decimals, ":pickupLocation": product.pickupLocation, ":storeCity": product.store.city, })
 
     def __get_products_table(self):
         dynamoDb = boto3.resource("dynamodb")
