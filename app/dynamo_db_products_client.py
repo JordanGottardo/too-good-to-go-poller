@@ -32,7 +32,7 @@ class DynamoDbProductsClient:
             Key={
                 "email": email, "productId": product.id
             },
-            UpdateExpression="set price=:price, decimals=:decimals, pickupLocation=:pickupLocation, isAvailable=:isAvailable, storeName=:storeName, storeAddress=:storeAddress, storeCity=:storeCity, lastUpdated=:storeCity",
+            UpdateExpression="set storeName=:storeName, storeAddress=:storeAddress, isAvailable=:isAvailable, price=:price, decimals=:decimals, pickupLocation=:pickupLocation, storeCity=:storeCity, lastUpdatedAt=:lastUpdatedAt",
             ExpressionAttributeValues={
                 ":price": product.price, ":decimals": product.decimals, ":pickupLocation": product.pickupLocation, ":isAvailable": product.isAvailable, ":storeName": product.store.name, ":storeAddress": product.store.address, ":storeCity": product.store.city, ":lastUpdatedAt": product.createdTime})
 
