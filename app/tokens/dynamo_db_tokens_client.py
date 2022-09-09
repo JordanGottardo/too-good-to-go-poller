@@ -19,7 +19,7 @@ class DynamoDbTokensClient:
         self.logger.info(
             f"DynamoDbTokensClient got response from DynamoDB: {response}")
 
-        item = response["Item"]
+        item = response["Items"][0]
         return {
             "accessToken": item["accessToken"]["S"],
             "refreshToken": item["refreshToken"]["S"],
