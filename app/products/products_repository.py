@@ -3,6 +3,7 @@ import logging
 from dynamo_db_products_client import DynamoDbProductsClient
 
 
+
 class ProductsRepository:
 
     def __init__(self, productsClient: DynamoDbProductsClient):
