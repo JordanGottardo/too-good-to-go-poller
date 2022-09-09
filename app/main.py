@@ -35,7 +35,14 @@ def get_products():
 
 @app.post("/products/update")
 def update_products():
-    productsRepository.add_or_update_product(email, {})
+    tokens = tokensRepository.get_tokens(email)
+    tgtgClient = TooGoodToGoClient(tokens["accessToken"], tokens["refreshToken"], tokens["userId"])
+    products = tgtgClient.get_items()
+
+    logger.info(f"Products from TgTg: {products}")
+
+    # productsRepository.add_or_update_product(email, {})
+    # productsRepository.add_or_update_product(email, {})
 
 
 @app.get("/tokens")
