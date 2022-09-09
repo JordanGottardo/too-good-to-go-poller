@@ -21,9 +21,9 @@ class DynamoDbTokensClient:
 
         item = response["Items"][0]
         return {
-            "accessToken": item["accessToken"]["S"],
-            "refreshToken": item["refreshToken"]["S"],
-            "userId": item["userId"]["S"]
+            "accessToken": item["accessToken"],
+            "refreshToken": item["refreshToken"],
+            "userId": item["userId"]
         }
 
     def __get_tokens_table(self):
