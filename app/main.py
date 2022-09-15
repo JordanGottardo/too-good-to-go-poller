@@ -68,26 +68,6 @@ async def healthcheck():
     return {"Success": "Pong!!!!"}
 
 
-def get_record_from_tokens_table(email: str):
-    dynamodb_client = boto3.client("dynamodb")
-
-    response = dynamodb_client.get_item(
-        TableName="tgtgTokens",
-        Key={
-            'email': {'S': email}
-        })
-
-    print(response)
-
-    item = response["Item"]
-    return {
-        "email": item["email"]["S"],
-        "accessToken": item["accessToken"]["S"],
-        "refreshToken": item["refreshToken"]["S"],
-        "userId": item["userId"]["S"]
-    }
-
-
 def __to_domain_products(products):
     return map(__to_domain_product, products)
 
