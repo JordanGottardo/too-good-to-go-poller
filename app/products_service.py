@@ -1,5 +1,6 @@
+from datetime import datetime
 import logging
-from product import Product
+from product import ProductDTO
 from products_repository import ProductsRepository
 
 
@@ -12,12 +13,17 @@ class ProductsService:
         self.productsRepository = productsRepository
 
     def get_available_products(self, email: str):
-        return self.productsRepository.get_available_products(email)
+        available_products = self.productsRepository.get_available_products(
+            email)
 
-    def add_or_update_product(self, email: str, product: Product):
+        self.productsRepository.add_or_update_products(available_products)
+
+        return available_products
+
+    def add_or_update_product(self, email: str, product: ProductDTO):
         return self.productsRepository.add_or_update_product(email, product)
 
-    def add_or_update_products(self, email: str, products: list[Product]):
+    def add_or_update_products(self, email: str, products: list[ProductDTO]):
         return self.productsRepository.add_or_update_products(email, products)
 
     def __initLogging(self):

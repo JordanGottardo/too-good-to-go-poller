@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from mangum import Mangum
 import boto3
 from products_service import ProductsService
-from product import Product
+from product import ProductDTO
 from dynamo_db_products_client import DynamoDbProductsClient
 from products_repository import ProductsRepository
 from dynamo_db_tokens_client import DynamoDbTokensClient
@@ -43,7 +43,7 @@ def update_products(userEmail: str):
 
     logger.info(f"Products from TgTg: {products}")
 
-    domainProducts = __to_domain_products(products)
+    domainProducts = __to_products_dto(products)
 
     productsService.add_or_update_products(userEmail, domainProducts)
 
@@ -68,12 +68,12 @@ async def healthcheck():
     return {"Success": "Pong!!!!"}
 
 
-def __to_domain_products(products):
-    return map(__to_domain_product, products)
+def __to_products_dto(products):
+    return map(__to_product_dto, products)
 
 
-def __to_domain_product(product):
-    return Product(product)
+def __to_product_dto(product):
+    return ProductDTO(product)
 
 
 handler = Mangum(app)

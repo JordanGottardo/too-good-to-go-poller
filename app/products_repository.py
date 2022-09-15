@@ -1,5 +1,5 @@
 import logging
-from product import Product
+from product import ProductDTO
 
 from dynamo_db_products_client import DynamoDbProductsClient
 
@@ -12,17 +12,21 @@ class ProductsRepository:
 
         self.productsClient = productsClient
 
-    def get_available_products(self, email: str):
+    def get_available_products(self, email: str) -> list[ProductDTO]:
         return self.productsClient.get_available_products(email)
 
-    def add_or_update_product(self, email: str, product: Product):
+    def add_or_update_product(self, email: str, product: ProductDTO):
         return self.productsClient.add_or_update_product(email, product)
 
-    def add_or_update_products(self, email: str, products: list[Product]):
+    def add_or_update_products(self, email: str, products: list[ProductDTO]):
         for product in products:
             self.logger.info(
                 f"ProductsRepository add_or_update_products {product}")
             self.add_or_update_product(email, product)
+
+    def update_last_gotten_at(self, email: str, products: list[ProductDTO]):
+        for product in products:
+            self.productsClient.update_last_gotten_at(email, product)
 
     def __initLogging(self):
         logging.basicConfig(format="%(threadName)s:%(message)s")

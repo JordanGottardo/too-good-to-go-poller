@@ -2,7 +2,7 @@ from datetime import datetime
 from store import Store
 
 
-class Product:
+class ProductDTO:
     def __init__(self, productFromClient):
         self.id = productFromClient["item"]["item_id"]
         self.price = productFromClient["item"]["price_including_taxes"]["minor_units"]
@@ -10,4 +10,3 @@ class Product:
         self.pickupLocation = productFromClient["pickup_location"]["address"]["address_line"]
         self.isAvailable = productFromClient["items_available"] > 0
         self.store = Store(productFromClient["store"])
-        self.createdTime = datetime.now()

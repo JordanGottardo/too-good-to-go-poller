@@ -3,7 +3,7 @@ import logging
 import boto3
 from boto3.dynamodb.conditions import Key
 
-from product import Product
+from product import ProductDTO
 
 
 class DynamoDbProductsClient:
@@ -26,7 +26,7 @@ class DynamoDbProductsClient:
 
         return products
 
-    def add_or_update_product(self, email, product: Product):
+    def add_or_update_product(self, email, product: ProductDTO):
         productsTable = self.__get_products_table()
 
         response = productsTable.update_item(
@@ -35,7 +35,18 @@ class DynamoDbProductsClient:
             },
             UpdateExpression="set storeName=:storeName, storeAddress=:storeAddress, isAvailable=:isAvailable,  lastUpdatedAt=:lastUpdatedAt, lastGottenAt=:lastGottenAt, price=:price, decimals=:decimals, pickupLocation=:pickupLocation, storeCity=:storeCity",
             ExpressionAttributeValues={
-                ":storeName": product.store.name, ":storeAddress": product.store.address, ":isAvailable": product.isAvailable, ":lastUpdatedAt": str(product.createdTime), ":lastGottenAt": None, ":price": product.price, ":decimals": product.decimals, ":pickupLocation": product.pickupLocation, ":storeCity": product.store.city, })
+                ":storeName": product.store.name, ":storeAddress": product.store.address, ":isAvailable": product.isAvailable, ":lastUpdatedAt": str(datetime.now), ":lastGottenAt": None, ":price": product.price, ":decimals": product.decimals, ":pickupLocation": product.pickupLocation, ":storeCity": product.store.city, })
+
+    def update_last_gotten_at(self, email: str, product: ProductDTO):
+        productsTable = self.__get_products_table()
+
+        response = productsTable.update_item(
+            Key={
+                "email": email, "productId": product.id
+            },
+            UpdateExpression="set lastGottenAt=:lastGottenAt",
+            ExpressionAttributeValues={
+                ":lastGottenAt": str(datetime.now())})
 
     def __get_products_table(self):
         dynamoDb = boto3.resource("dynamodb")
