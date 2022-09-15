@@ -11,8 +11,8 @@ class ProductsService:
 
         self.productsRepository = productsRepository
 
-    def get_products(self, email: str):
-        return self.productsRepository.get_products(email)
+    def get_available_products(self, email: str):
+        return self.productsRepository.get_available_products(email)
 
     def add_or_update_product(self, email: str, product: Product):
         return self.productsRepository.add_or_update_product(email, product)

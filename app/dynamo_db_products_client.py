@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 import boto3
 from boto3.dynamodb.conditions import Key
@@ -12,7 +13,7 @@ class DynamoDbProductsClient:
 
         self.logger.info(f"DynamoDbProductsClient Constructor")
 
-    def get_products(self, email: str):
+    def get_available_products(self, email: str):
         productsTable = self.__get_products_table()
 
         response = productsTable.query(
@@ -32,9 +33,9 @@ class DynamoDbProductsClient:
             Key={
                 "email": email, "productId": product.id
             },
-            UpdateExpression="set storeName=:storeName, storeAddress=:storeAddress, isAvailable=:isAvailable,  lastUpdatedAt=:lastUpdatedAt, price=:price, decimals=:decimals, pickupLocation=:pickupLocation, storeCity=:storeCity",
+            UpdateExpression="set storeName=:storeName, storeAddress=:storeAddress, isAvailable=:isAvailable,  lastUpdatedAt=:lastUpdatedAt, lastGottenAt=:lastGottenAt price=:price, decimals=:decimals, pickupLocation=:pickupLocation, storeCity=:storeCity",
             ExpressionAttributeValues={
-                ":storeName": product.store.name, ":storeAddress": product.store.address, ":isAvailable": product.isAvailable, ":lastUpdatedAt": str(product.createdTime), ":price": product.price, ":decimals": product.decimals, ":pickupLocation": product.pickupLocation, ":storeCity": product.store.city, })
+                ":storeName": product.store.name, ":storeAddress": product.store.address, ":isAvailable": product.isAvailable, ":lastUpdatedAt": str(product.createdTime), ":lastGottenAt": None, ":price": product.price, ":decimals": product.decimals, ":pickupLocation": product.pickupLocation, ":storeCity": product.store.city, })
 
     def __get_products_table(self):
         dynamoDb = boto3.resource("dynamodb")
