@@ -16,7 +16,7 @@ class ProductsService:
         available_products = self.productsRepository.get_available_products(
             email)
 
-        self.productsRepository.add_or_update_products(available_products)
+        self.productsRepository.update_last_gotten_at(available_products)
 
         return available_products
 

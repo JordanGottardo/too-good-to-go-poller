@@ -35,7 +35,7 @@ class DynamoDbProductsClient:
             },
             UpdateExpression="set storeName=:storeName, storeAddress=:storeAddress, isAvailable=:isAvailable,  lastUpdatedAt=:lastUpdatedAt, lastGottenAt=:lastGottenAt, price=:price, decimals=:decimals, pickupLocation=:pickupLocation, storeCity=:storeCity",
             ExpressionAttributeValues={
-                ":storeName": product.store.name, ":storeAddress": product.store.address, ":isAvailable": product.isAvailable, ":lastUpdatedAt": str(datetime.now), ":lastGottenAt": None, ":price": product.price, ":decimals": product.decimals, ":pickupLocation": product.pickupLocation, ":storeCity": product.store.city, })
+                ":storeName": product.store.name, ":storeAddress": product.store.address, ":isAvailable": product.isAvailable, ":lastUpdatedAt": str(datetime.now()), ":lastGottenAt": None, ":price": product.price, ":decimals": product.decimals, ":pickupLocation": product.pickupLocation, ":storeCity": product.store.city, })
 
     def update_last_gotten_at(self, email: str, product: ProductDTO):
         productsTable = self.__get_products_table()
