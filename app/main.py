@@ -31,7 +31,7 @@ app = FastAPI()
 
 @app.get("/products")
 def get_available_products(userEmail: str):
-    return productsRepository.get_available_products(userEmail)
+    return productsService.get_available_products(userEmail)
 
 
 @app.post("/products/update")
