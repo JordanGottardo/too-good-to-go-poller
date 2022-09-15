@@ -35,7 +35,7 @@ class DynamoDbProductsClient:
             },
             UpdateExpression="set storeName=:storeName, storeAddress=:storeAddress, isAvailable=:isAvailable,  lastUpdatedAt=:lastUpdatedAt, lastGottenAt=:lastGottenAt price=:price, decimals=:decimals, pickupLocation=:pickupLocation, storeCity=:storeCity",
             ExpressionAttributeValues={
-                ":storeName": product.store.name, ":storeAddress": product.store.address, ":isAvailable": product.isAvailable, ":lastUpdatedAt": str(product.createdTime), ":lastGottenAt": None, ":price": product.price, ":decimals": product.decimals, ":pickupLocation": product.pickupLocation, ":storeCity": product.store.city, })
+                ":storeName": product.store.name, ":storeAddress": product.store.address, ":isAvailable": product.isAvailable, ":lastUpdatedAt": str(product.createdTime), ":lastGottenAt": "", ":price": product.price, ":decimals": product.decimals, ":pickupLocation": product.pickupLocation, ":storeCity": product.store.city, })
 
     def __get_products_table(self):
         dynamoDb = boto3.resource("dynamodb")
