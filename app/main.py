@@ -1,5 +1,4 @@
 import logging
-import string
 from fastapi import FastAPI
 from mangum import Mangum
 import boto3
@@ -69,7 +68,7 @@ async def healthcheck():
     return {"Success": "Pong!!!!"}
 
 
-def get_record_from_tokens_table(email: string):
+def get_record_from_tokens_table(email: str):
     dynamodb_client = boto3.client("dynamodb")
 
     response = dynamodb_client.get_item(
