@@ -20,7 +20,6 @@ logger.setLevel(logging.DEBUG)
 
 logger.info("I setup complete")
 logger.debug("D setup complete")
-email = "jordangottardo@libero.it"
 productsClient = DynamoDbProductsClient()
 productsRepository = ProductsRepository(productsClient)
 productsService = ProductsService(productsRepository)
@@ -32,36 +31,33 @@ app = FastAPI()
 
 
 @app.get("/products")
-def get_products():
-    return productsRepository.get_products(email)
+def get_products(userEmail: str):
+    return productsRepository.get_products(userEmail)
 
 
 @app.post("/products/update")
-def update_products():
-    tokens = tokensRepository.get_tokens(email)
-    tgtgClient = TooGoodToGoClient(tokens["accessToken"], tokens["refreshToken"], tokens["userId"])
+def update_products(userEmail: str):
+    tokens = tokensRepository.get_tokens(userEmail)
+    tgtgClient = TooGoodToGoClient(
+        tokens["accessToken"], tokens["refreshToken"], tokens["userId"])
     products = tgtgClient.get_items()
 
     logger.info(f"Products from TgTg: {products}")
 
     domainProducts = __to_domain_products(products)
 
-    productsService.add_or_update_products(email, domainProducts)
-    
-
-    # productsRepository.add_or_update_product(email, {})
-    # productsRepository.add_or_update_product(email, {})
+    productsService.add_or_update_products(userEmail, domainProducts)
 
 
 @app.get("/tokens")
-def get_tokens():
-    return tokensRepository.get_tokens(email)
+def get_tokens(userEmail: str):
+    return tokensRepository.get_tokens(userEmail)
 
 
 @app.get("/credentials")
-def get_credentials():
+def get_credentials(userEmail: str):
 
-    tgtgClient = TooGoodToGoClient(email)
+    tgtgClient = TooGoodToGoClient(userEmail)
     credentials = tgtgClient.get_credentials()
     logger.info(credentials)
 
@@ -92,10 +88,13 @@ def get_record_from_tokens_table(email: string):
         "userId": item["userId"]["S"]
     }
 
+
 def __to_domain_products(products):
     return map(__to_domain_product, products)
 
+
 def __to_domain_product(product):
     return Product(product)
+
 
 handler = Mangum(app)
