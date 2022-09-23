@@ -54,7 +54,7 @@ class DynamoDbProductsClient:
             },
             UpdateExpression="set lastGottenAt=:lastGottenAt",
             ExpressionAttributeValues={
-                ":lastGottenAt": str(datetime.now())})
+                ":lastGottenAt": datetime.now().isoformat()})
 
     def __get_products_table(self):
         dynamoDb = boto3.resource("dynamodb")
