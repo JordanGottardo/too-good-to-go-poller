@@ -20,9 +20,11 @@ class DynamoDbProductsClient:
         lastGottenAtAttribute = Attr("lastGottenAt")
         isAvailableAttribute = Attr("isAvailable")
 
+        oneDayAgo = datetime.now() - timedelta(days=1)
+
         response = productsTable.query(
             KeyConditionExpression=Key('email').eq(email),
-            FilterExpression=isAvailableAttribute.eq(True) & lastGottenAtAttribute.eq(None) | lastGottenAtAttribute.lt(str(datetime.now().isoformat()))
+            FilterExpression=isAvailableAttribute.eq(True) & (lastGottenAtAttribute.eq(None) | lastGottenAtAttribute.lt(oneDayAgo.isoformat()))
         )
 
         self.logger.info(
