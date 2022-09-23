@@ -32,11 +32,11 @@ app = FastAPI()
 
 @app.get("/products")
 def get_available_products(userEmail: str):
-    available_products = productsService.get_available_products(userEmail)
+    available_products = list(productsService.get_available_products(userEmail))
 
     logger.info(f"Main: gotten {len(available_products)} products from ProductsService")
 
-    return map(__to_product_response, list(available_products))
+    return map(__to_product_response, available_products)
 
 
 @app.post("/products/update")
