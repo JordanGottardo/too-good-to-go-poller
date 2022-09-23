@@ -31,7 +31,12 @@ class DynamoDbProductsClient:
         self.logger.info(
             f"DynamoDbProductsClient got response from DynamoDB: {response}")
 
+        for product in response["Items"]:
+            self.logger.info(f"DynamoDbProductsClient productFromDb {product}")
+
         products = map(lambda p : ProductEntity(p), response["Items"])
+
+
 
         self.logger.info(f"DynamoDbProductsClient products= {products}")
         self.logger.info(f"DynamoDbProductsClient products list= {list(products)}")
