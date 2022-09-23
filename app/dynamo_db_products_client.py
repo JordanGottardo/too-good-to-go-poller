@@ -81,7 +81,7 @@ class DynamoDbProductsClient:
 
         response = productsTable.query(
             KeyConditionExpression=Key('email').eq("jordangottardo@libero.it"),
-            FilterExpression=Attr('lastGottenAt').exists() & Attr('lastGottenAt').ne(None) & Attr('lastGottenAt').lt(str(datetime.now()),
+            FilterExpression=Attr('lastGottenAt').exists() & Attr('lastGottenAt').ne(None) & Attr('lastGottenAt').lt(str(datetime.now()))
         )
 
         return response["Items"]
