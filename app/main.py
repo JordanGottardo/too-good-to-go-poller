@@ -38,7 +38,7 @@ def get_available_products(userEmail: str):
 
     logger.info(f"Main: gotten {len(available_products)} products from ProductsService")
 
-    return map(__to_product_response, available_products)
+    return list(map(__to_product_response, available_products))
 
 
 @app.post("/products/update")
