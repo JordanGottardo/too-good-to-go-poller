@@ -2,7 +2,7 @@ import logging
 from fastapi import FastAPI
 from mangum import Mangum
 import boto3
-from app.product_entity import ProductEntity
+from product_entity import ProductEntity
 from products_service import ProductsService
 from product import ProductDTO
 from dynamo_db_products_client import DynamoDbProductsClient
@@ -63,6 +63,7 @@ def get_credentials(userEmail: str):
 
     return credentials
 
+
 @app.post("/test")
 def test():
     productsService.test()
@@ -72,9 +73,10 @@ def test():
 def test():
     productsClient.test2()
 
+
 @app.post("/test3")
 def test():
-   return productsClient.test3()
+    return productsClient.test3()
 
 
 @app.get("/ping", name="Healthcheck", tags=["Healthcheck"])
