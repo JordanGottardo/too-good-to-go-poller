@@ -31,7 +31,13 @@ class DynamoDbProductsClient:
         self.logger.info(
             f"DynamoDbProductsClient got response from DynamoDB: {response}")
 
-        return map(lambda p : ProductEntity(p), response["Items"])
+        products = map(lambda p : ProductEntity(p), response["Items"])
+
+        self.logger.info(f"DynamoDbProductsClient products= {products}")
+        self.logger.info(f"DynamoDbProductsClient products list= {list(products)}")
+
+        for product in list(products):
+            self.logger.info(f"DynamoDbProductsClient productId {product.id}")
 
 
     def add_or_update_product(self, email, product: ProductDTO):
