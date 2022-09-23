@@ -94,7 +94,7 @@ def __to_product_dto(product):
     return ProductDTO(product)
 
 
-def __to_product_response(product: ProductEntity):
+def __to_product_response(product: ProductDTO):
 
     return {
         "productId": product.id,
@@ -103,7 +103,7 @@ def __to_product_response(product: ProductEntity):
         "isAvailable": product.isAvailable,
         "lastGottenAt": product.lastGottenAt,
         "lastUpdateAt": product.lastUpdatedAt,
-        "storeName": product.storeName
+        "storeName": product.store.name
 
     }
 
