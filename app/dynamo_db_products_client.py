@@ -63,7 +63,7 @@ class DynamoDbProductsClient:
             },
             UpdateExpression="set lastGottenAt=:lastGottenAt",
             ExpressionAttributeValues={
-                ":lastGottenAt": str(datetime.now())})
+                ":lastGottenAt": str(datetime.now().isoformat())})
 
     def test2(self):
         productsTable = self.__get_products_table()
@@ -81,7 +81,7 @@ class DynamoDbProductsClient:
 
         response = productsTable.query(
             KeyConditionExpression=Key('email').eq("jordangottardo@libero.it"),
-            FilterExpression=Attr('lastGottenAt').exists() & Attr('lastGottenAt').ne(None) & Attr('lastGottenAt').lt(str(datetime.now()))
+            FilterExpression=Attr('lastGottenAt').exists() & Attr('lastGottenAt').ne(None) & Attr('lastGottenAt').lt(str(datetime.now().isoformat()))
         )
 
         return response["Items"]
