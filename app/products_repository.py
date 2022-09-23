@@ -28,6 +28,9 @@ class ProductsRepository:
         for product in products:
             self.productsClient.update_last_gotten_at(email, product)
 
+    def test(self):
+        return self.productsClient.test()
+
     def __initLogging(self):
         logging.basicConfig(format="%(threadName)s:%(message)s")
         self.logger = logging.getLogger("ProductsRepository")

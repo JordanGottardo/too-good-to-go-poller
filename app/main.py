@@ -62,6 +62,15 @@ def get_credentials(userEmail: str):
 
     return credentials
 
+@app.post("/test")
+def test():
+    productsService.test()
+
+
+@app.post("/test2")
+def test():
+    productsClient.test2()
+
 
 @app.get("/ping", name="Healthcheck", tags=["Healthcheck"])
 async def healthcheck():

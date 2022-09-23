@@ -26,6 +26,9 @@ class ProductsService:
     def add_or_update_products(self, email: str, products: list[ProductDTO]):
         return self.productsRepository.add_or_update_products(email, products)
 
+    def test(self):
+        return self.productsRepository.test()
+
     def __initLogging(self):
         logging.basicConfig(format="%(threadName)s:%(message)s")
         self.logger = logging.getLogger("ProductsService")

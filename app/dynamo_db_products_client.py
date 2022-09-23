@@ -52,6 +52,28 @@ class DynamoDbProductsClient:
         dynamoDb = boto3.resource("dynamodb")
         return dynamoDb.Table("tgtgProducts")
 
+    def test(self):
+        productsTable = self.__get_products_table()
+
+        productsTable.update_item(
+            Key={
+                "email": "jordangottardo@libero.it", "productId": "389956"
+            },
+            UpdateExpression="set lastGottenAt=:lastGottenAt",
+            ExpressionAttributeValues={
+                ":lastGottenAt": str(datetime.now())})
+
+    def test2(self):
+        productsTable = self.__get_products_table()
+
+        productsTable.update_item(
+            Key={
+                "email": "jordangottardo@libero.it", "productId": "389956"
+            },
+            UpdateExpression="set lastGottenAt=:lastGottenAt",
+            ExpressionAttributeValues={
+                ":lastGottenAt": None})
+
     def __init_logging(self):
         logging.basicConfig(format="%(threadName)s:%(message)s")
         self.logger = logging.getLogger("DynamoDbProductsClient")
