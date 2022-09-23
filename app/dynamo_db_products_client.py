@@ -1,4 +1,5 @@
 from datetime import datetime
+from genericpath import exists
 import logging
 import boto3
 from boto3.dynamodb.conditions import Key
@@ -80,7 +81,8 @@ class DynamoDbProductsClient:
 
         response = productsTable.query(
             KeyConditionExpression=Key('email').eq("jordangottardo@libero.it"),
-            FilterExpression=Attr('lastGottenAt').exists())
+            FilterExpression=Attr('lastGottenAt').exists() & Attr('lastGottenAt').ne(None),
+        )
 
         return response["Items"]
 
