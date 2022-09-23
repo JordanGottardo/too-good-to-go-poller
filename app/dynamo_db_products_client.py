@@ -2,6 +2,7 @@ from datetime import datetime
 import logging
 import boto3
 from boto3.dynamodb.conditions import Key
+from boto3.dynamodb.conditions import Attr
 
 from product import ProductDTO
 
@@ -73,6 +74,13 @@ class DynamoDbProductsClient:
             UpdateExpression="set lastGottenAt=:lastGottenAt",
             ExpressionAttributeValues={
                 ":lastGottenAt": None})
+
+    def test3(self):
+        productsTable = self.__get_products_table()
+
+        response = productsTable.query(
+            KeyConditionExpression=Key('email').eq("jordangottardo@libero.it"),
+            FilterExpression=Attr('lastGottenAt').exists())
 
     def __init_logging(self):
         logging.basicConfig(format="%(threadName)s:%(message)s")

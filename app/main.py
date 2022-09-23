@@ -71,6 +71,10 @@ def test():
 def test():
     productsClient.test2()
 
+@app.post("/test3")
+def test():
+    productsClient.test3()
+
 
 @app.get("/ping", name="Healthcheck", tags=["Healthcheck"])
 async def healthcheck():
