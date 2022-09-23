@@ -3,6 +3,7 @@ import logging
 import boto3
 from boto3.dynamodb.conditions import Key
 from boto3.dynamodb.conditions import Attr
+from app.product_entity import ProductEntity
 
 from product import ProductDTO
 
@@ -14,7 +15,7 @@ class DynamoDbProductsClient:
 
         self.logger.info(f"DynamoDbProductsClient Constructor")
 
-    def get_available_products(self, email: str):
+    def get_available_products(self, email: str) -> list[ProductEntity]:
         productsTable = self.__get_products_table()
 
         lastGottenAtAttribute = Attr("lastGottenAt")
@@ -30,9 +31,8 @@ class DynamoDbProductsClient:
         self.logger.info(
             f"DynamoDbProductsClient got response from DynamoDB: {response}")
 
-        products = response["Items"]
+        return map(lambda p : ProductEntity(p), response["Items"])
 
-        return products
 
     def add_or_update_product(self, email, product: ProductDTO):
         productsTable = self.__get_products_table()
