@@ -47,7 +47,7 @@ class DynamoDbProductsClient:
 
     def update_last_gotten_at(self, email: str, product: ProductDTO):
         productsTable = self.__get_products_table()
-
+        print(product)
         response = productsTable.update_item(
             Key={
                 "email": email, "productId": product.id
