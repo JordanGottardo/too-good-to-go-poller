@@ -34,10 +34,6 @@ app = FastAPI()
 def get_available_products(userEmail: str):
     available_products = productsService.get_available_products(userEmail)
 
-    logger.info(available_products)
-
-    logger.info(f"Main: gotten {len(available_products)} products from ProductsService")
-
     return list(map(__to_product_response, available_products))
 
 

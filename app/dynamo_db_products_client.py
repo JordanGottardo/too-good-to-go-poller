@@ -25,24 +25,11 @@ class DynamoDbProductsClient:
 
         response = productsTable.query(
             KeyConditionExpression=Key('email').eq(email),
-            FilterExpression=isAvailableAttribute.eq(True) & (lastGottenAtAttribute.eq(None) | lastGottenAtAttribute.lt(oneDayAgo.isoformat()))
+            FilterExpression=isAvailableAttribute.eq(True) & (lastGottenAtAttribute.eq(
+                None) | lastGottenAtAttribute.lt(oneDayAgo.isoformat()))
         )
 
-        self.logger.info(
-            f"DynamoDbProductsClient got response from DynamoDB: {response}")
-
-        for product in response["Items"]:
-            self.logger.info(f"DynamoDbProductsClient productFromDb {product}")
-
-        products = list(map(lambda p : ProductEntity(p), response["Items"]))
-
-        self.logger.info(f"DynamoDbProductsClient products= {products}")
-
-        for product in products:
-            self.logger.info(f"DynamoDbProductsClient productId {product.id}")
-        
-        return products
-
+        return list(map(lambda p: ProductEntity(p), response["Items"]))
 
     def add_or_update_product(self, email, product: ProductDTO):
         productsTable = self.__get_products_table()
@@ -99,7 +86,8 @@ class DynamoDbProductsClient:
 
         response = productsTable.query(
             KeyConditionExpression=Key('email').eq("jordangottardo@libero.it"),
-            FilterExpression=Attr('lastGottenAt').exists() & Attr('lastGottenAt').ne(None) & Attr('lastGottenAt').lt(oneDayAgo.isoformat())
+            FilterExpression=Attr('lastGottenAt').exists() & Attr('lastGottenAt').ne(
+                None) & Attr('lastGottenAt').lt(oneDayAgo.isoformat())
         )
 
         return response["Items"]
