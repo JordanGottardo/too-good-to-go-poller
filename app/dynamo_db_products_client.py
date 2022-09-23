@@ -82,6 +82,8 @@ class DynamoDbProductsClient:
             KeyConditionExpression=Key('email').eq("jordangottardo@libero.it"),
             FilterExpression=Attr('lastGottenAt').exists())
 
+        return response["Items"]
+
     def __init_logging(self):
         logging.basicConfig(format="%(threadName)s:%(message)s")
         self.logger = logging.getLogger("DynamoDbProductsClient")
