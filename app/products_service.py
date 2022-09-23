@@ -16,6 +16,9 @@ class ProductsService:
         available_products = self.productsRepository.get_available_products(
             email)
         self.logger.info(f"ProductsService availableProducts= {list(available_products)}")
+        for product in list(available_products):
+            self.logger.info(f"id= {product.id} pickupLocation= {product.pickupLocation}")
+
         self.productsRepository.update_last_gotten_at(email, available_products)
 
         return available_products
