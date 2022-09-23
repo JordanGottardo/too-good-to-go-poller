@@ -73,7 +73,7 @@ def test():
 
 @app.post("/test3")
 def test():
-    productsClient.test3()
+   return productsClient.test3()
 
 
 @app.get("/ping", name="Healthcheck", tags=["Healthcheck"])
