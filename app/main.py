@@ -100,7 +100,6 @@ def __to_product_dto(product):
 
 def __to_product_response(product: ProductEntity):
 
-    logger.log(f"Product= {product} id {product.id}")
     return {
         "productId": product.id,
         "price": product.price,
