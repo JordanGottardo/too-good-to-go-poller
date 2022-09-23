@@ -32,7 +32,7 @@ app = FastAPI()
 
 @app.get("/products")
 def get_available_products(userEmail: str):
-    available_products = list(productsService.get_available_products(userEmail))
+    available_products = productsService.get_available_products(userEmail)
 
     logger.info(available_products)
 

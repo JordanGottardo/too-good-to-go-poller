@@ -40,6 +40,8 @@ class DynamoDbProductsClient:
 
         for product in products:
             self.logger.info(f"DynamoDbProductsClient productId {product.id}")
+        
+        return products
 
 
     def add_or_update_product(self, email, product: ProductDTO):
