@@ -34,14 +34,11 @@ class DynamoDbProductsClient:
         for product in response["Items"]:
             self.logger.info(f"DynamoDbProductsClient productFromDb {product}")
 
-        products = map(lambda p : ProductEntity(p), response["Items"])
-
-
+        products = list(map(lambda p : ProductEntity(p), response["Items"]))
 
         self.logger.info(f"DynamoDbProductsClient products= {products}")
-        self.logger.info(f"DynamoDbProductsClient products list= {list(products)}")
 
-        for product in list(products):
+        for product in products:
             self.logger.info(f"DynamoDbProductsClient productId {product.id}")
 
 
