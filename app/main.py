@@ -2,6 +2,7 @@ import logging
 from fastapi import FastAPI
 from mangum import Mangum
 import boto3
+from app.product_entity import ProductEntity
 from products_service import ProductsService
 from product import ProductDTO
 from dynamo_db_products_client import DynamoDbProductsClient
@@ -31,7 +32,7 @@ app = FastAPI()
 
 @app.get("/products")
 def get_available_products(userEmail: str):
-    return productsService.get_available_products(userEmail)
+    return map(__to_product_response, productsService.get_available_products(userEmail))
 
 
 @app.post("/products/update")
@@ -87,6 +88,19 @@ def __to_products_dto(products):
 
 def __to_product_dto(product):
     return ProductDTO(product)
+
+
+def __to_product_response(product: ProductEntity):
+    return {
+        "productId": product.id,
+        "price": product.price,
+        "decimals": product.decimals,
+        "isAvailable": product.isAvailable,
+        "lastGottenAt": product.lastGottenAt,
+        "lastUpdateAt": product.lastUpdatedAt,
+        "storeName": product.storeName
+
+    }
 
 
 handler = Mangum(app)
