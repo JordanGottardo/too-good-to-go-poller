@@ -4,23 +4,19 @@ from tgtg import TgtgClient
 
 class TooGoodToGoClient:
 
-    def __init__(self, email):
+    def __init__(self, email, accessToken=None, refreshToken=None, userId=None):
         self.__initLogging()
 
-        self.logger.info(
-            f"TooGoodToGoClient Constructor: initializing for user {email}")
-
-        self.email = email
-        self.client = TgtgClient(email=email)
-
-    def __init__(self, accessToken, refreshToken, userId):
-        self.__initLogging()
-
-        self.logger.info(
-            f"TooGoodToGoClient Constructor: initializing for user with id {userId}, access token {accessToken}, refresh token {refreshToken}")
-
-        self.client = TgtgClient(
-            access_token=accessToken, refresh_token=refreshToken, user_id=userId)
+        if (accessToken is not None):
+            self.logger.info(
+                f"TooGoodToGoClient Constructor: initializing for user with id {userId}, access token {accessToken}, refresh token {refreshToken}")
+            self.client = TgtgClient(
+                access_token=accessToken, refresh_token=refreshToken, user_id=userId)
+        else:
+            self.logger.info(
+                f"TooGoodToGoClient Constructor: initializing for user with email {email}")
+            self.email = email
+            self.client = TgtgClient(email=email)
 
     def get_items(self):
         return self.client.get_items()
