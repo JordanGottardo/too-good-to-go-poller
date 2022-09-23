@@ -3,7 +3,7 @@ import logging
 import boto3
 from boto3.dynamodb.conditions import Key
 from boto3.dynamodb.conditions import Attr
-from app.product_entity import ProductEntity
+from product_entity import ProductEntity
 
 from product import ProductDTO
 
