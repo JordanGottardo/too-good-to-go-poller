@@ -29,6 +29,12 @@ tokensRepository = TokensRepository(tokensClient)
 app = FastAPI()
 
 
+@app.post("/", name="UpdateProducts")
+def update_products():
+    logger.info("UpdateProducts invoked from timer")
+    return {"Success2": "Pong2!!!!"}
+
+
 @app.get("/products")
 def get_available_products(userEmail: str):
     available_products = productsService.get_available_products(userEmail)
@@ -56,7 +62,8 @@ def update_tokens(userEmail: str):
     credentials = tgtgClient.get_credentials_fake()
     logger.info(credentials)
 
-    tokensRepository.update_tokens(userEmail, TokenDTO.from_client_tokens(credentials))
+    tokensRepository.update_tokens(
+        userEmail, TokenDTO.from_client_tokens(credentials))
 
     return tokensRepository.get_tokens(userEmail)
 
@@ -90,9 +97,6 @@ def test():
 async def healthcheck():
     return {"Success": "Pong!!!!"}
 
-@app.get("/",name="Healthcheck2", tags=["Healthcheck2"])
-def healthcheck2():
-    return {"Success2": "Pong2!!!!"}
 
 def __to_products_dto(products):
     return map(__to_product_dto, products)
