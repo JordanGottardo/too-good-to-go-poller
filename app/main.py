@@ -90,6 +90,9 @@ def test():
 async def healthcheck():
     return {"Success": "Pong!!!!"}
 
+@app.get("", name="Healthcheck", tags=["Healthcheck"])
+async def healthcheck2():
+    return {"Success2": "Pong2!!!!"}
 
 def __to_products_dto(products):
     return map(__to_product_dto, products)
