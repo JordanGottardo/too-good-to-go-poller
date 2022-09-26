@@ -189,6 +189,32 @@
                     "WriteCapacityUnits": 1
                 }
             }
+        },
+        "tgtgUpdateProductsEventbridgeRule": {
+            "Type": "AWS::Events::Rule",
+            "Properties": {
+                "Description": "Polls Tgtg server periodically to get products and updates them in DB",
+                "Name": "tgtg-update-products",
+                "ScheduleExpression": "rate(1 minute)",
+                "Targets": [
+                    {
+                        "Arn": { "Fn::GetAtt": ["TgtgPollerLambda", "Arn"] },
+                        "Id": "tgtg-poller-lambda-target",
+                        "Input": "{\n  \"resource\": \"/my/path\",\n  \"path\": \"/\",\n  \"httpMethod\": \"POST\",\n  \"headers\": {\n    \"header1\": \"value1\",\n    \"header2\": \"value2\"\n  },\n  \"multiValueHeaders\": {\n    \"header1\": [\n      \"value1\"\n    ],\n    \"header2\": [\n      \"value1\",\n      \"value2\"\n    ]\n  },\n  \"queryStringParameters\": {\n    \"parameter1\": \"value1\",\n    \"parameter2\": \"value\"\n  },\n  \"multiValueQueryStringParameters\": {\n    \"parameter1\": [\n      \"value1\",\n      \"value2\"\n    ],\n    \"parameter2\": [\n      \"value\"\n    ]\n  },\n  \"requestContext\": {\n    \"accountId\": \"123456789012\",\n    \"apiId\": \"id\",\n    \"authorizer\": {\n      \"claims\": null,\n      \"scopes\": null\n    },\n    \"domainName\": \"id.execute-api.us-east-1.amazonaws.com\",\n    \"domainPrefix\": \"id\",\n    \"extendedRequestId\": \"request-id\",\n    \"httpMethod\": \"GET\",\n    \"identity\": {\n      \"accessKey\": null,\n      \"accountId\": null,\n      \"caller\": null,\n      \"cognitoAuthenticationProvider\": null,\n      \"cognitoAuthenticationType\": null,\n      \"cognitoIdentityId\": null,\n      \"cognitoIdentityPoolId\": null,\n      \"principalOrgId\": null,\n      \"sourceIp\": \"IP\",\n      \"user\": null,\n      \"userAgent\": \"user-agent\",\n      \"userArn\": null,\n      \"clientCert\": {\n        \"clientCertPem\": \"CERT_CONTENT\",\n        \"subjectDN\": \"www.example.com\",\n        \"issuerDN\": \"Example issuer\",\n        \"serialNumber\": \"a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1:a1\",\n        \"validity\": {\n          \"notBefore\": \"May 28 12:30:02 2019 GMT\",\n          \"notAfter\": \"Aug  5 09:36:04 2021 GMT\"\n        }\n      }\n    },\n    \"path\": \"/my/path\",\n    \"protocol\": \"HTTP/1.1\",\n    \"requestId\": \"id=\",\n    \"requestTime\": \"04/Mar/2020:19:15:17 +0000\",\n    \"requestTimeEpoch\": 1583349317135,\n    \"resourceId\": null,\n    \"resourcePath\": \"/my/path\",\n    \"stage\": \"$default\"\n  },\n  \"pathParameters\": null,\n  \"stageVariables\": null,\n  \"body\": \"Hello from Lambda!\",\n  \"isBase64Encoded\": false\n}"
+                    }
+                ]
+            }
+        },
+        "PermissionForEventsToInvokeLambda": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+                "FunctionName": { "Ref": "TgtgPollerLambda" },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "events.amazonaws.com",
+                "SourceArn": {
+                    "Fn::GetAtt": ["tgtgUpdateProductsEventbridgeRule", "Arn"]
+                }
+            }
         }
     }
 }
