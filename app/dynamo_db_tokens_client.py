@@ -23,7 +23,7 @@ class DynamoDbTokensClient:
             f"DynamoDbTokensClient got response from DynamoDB: {response}")
 
         item = response["Items"][0]
-        return TokenDTO(item)
+        return TokenDTO.from_db_tokens(item)
 
     def update_tokens(self, email: str, tokens: TokenDTO):
         tokensTable = self.__get_tokens_table()
