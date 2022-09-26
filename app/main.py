@@ -58,7 +58,7 @@ def update_tokens(userEmail: str):
 
     tokensRepository.update_tokens(userEmail, TokenDTO.from_client_tokens(credentials))
 
-    return tokensRepository.get_tokens()
+    return tokensRepository.get_tokens(userEmail)
 
 
 @app.get("/credentials")
