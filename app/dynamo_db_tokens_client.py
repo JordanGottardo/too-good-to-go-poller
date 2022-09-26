@@ -2,6 +2,7 @@ import datetime
 import logging
 import boto3
 from boto3.dynamodb.conditions import Key
+from datetime import datetime
 
 from tokens import TokenDTO
 
