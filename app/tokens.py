@@ -7,9 +7,9 @@ class TokenDTO(object):
             self.userId = tokensFromClient["user_id"]
 
         if (tokensFromDatabase is not None):
-            self.accessToken = tokensFromClient["accessToken"]
-            self.refreshToken = tokensFromClient["refreshToken"]
-            self.userId = tokensFromClient["userId"]
+            self.accessToken = tokensFromDatabase["accessToken"]
+            self.refreshToken = tokensFromDatabase["refreshToken"]
+            self.userId = tokensFromDatabase["userId"]
 
 
     @classmethod
