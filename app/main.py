@@ -34,6 +34,11 @@ def update_products():
     logger.info("UpdateProducts invoked from timer")
     return {"Success2": "Pong2!!!!"}
 
+@app.get("/", name="test111")
+def test111():
+    logger.info("test111 invoked from timer")
+    return {"Success111": "Pong111!!!!"}
+
 
 @app.get("/products")
 def get_available_products(userEmail: str):
