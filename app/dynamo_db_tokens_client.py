@@ -2,7 +2,7 @@ import logging
 import boto3
 from boto3.dynamodb.conditions import Key
 
-from token import TokenDTO
+from tokens import TokenDTO
 
 
 class DynamoDbTokensClient:
