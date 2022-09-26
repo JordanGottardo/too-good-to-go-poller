@@ -1,4 +1,5 @@
 import logging
+from token import TokenDTO
 from dynamo_db_tokens_client import DynamoDbTokensClient
 
 class TokensRepository:
@@ -9,7 +10,7 @@ class TokensRepository:
 
         self.tokensClient = tokensClient
 
-    def get_tokens(self, email: str):
+    def get_tokens(self, email: str) -> TokenDTO:
         return self.tokensClient.get_tokens(email)
 
     def __initLogging(self):

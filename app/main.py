@@ -50,9 +50,11 @@ def update_products(userEmail: str):
     productsService.add_or_update_products(userEmail, domainProducts)
 
 
-@app.get("/tokens")
-def get_tokens(userEmail: str):
-    return tokensRepository.get_tokens(userEmail)
+@app.post("/tokens/update")
+def update_tokens(userEmail: str):
+    tokens = tokensRepository.get_tokens(userEmail)
+    
+    return tokens
 
 
 @app.get("/credentials")

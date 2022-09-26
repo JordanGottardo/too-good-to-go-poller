@@ -2,6 +2,8 @@ import logging
 import boto3
 from boto3.dynamodb.conditions import Key
 
+from token import TokenDTO
+
 
 class DynamoDbTokensClient:
 
@@ -10,7 +12,7 @@ class DynamoDbTokensClient:
 
         self.logger.info(f"DynamoDbTokensClient Constructor")
 
-    def get_tokens(self, email: str):
+    def get_tokens(self, email: str) -> TokenDTO:
         tokensTable = self.__get_tokens_table()
 
         response = tokensTable.query(
@@ -20,11 +22,7 @@ class DynamoDbTokensClient:
             f"DynamoDbTokensClient got response from DynamoDB: {response}")
 
         item = response["Items"][0]
-        return {
-            "accessToken": item["accessToken"],
-            "refreshToken": item["refreshToken"],
-            "userId": item["userId"]
-        }
+        return TokenDTO(item)
 
     def __get_tokens_table(self):
         dynamoDb = boto3.resource("dynamodb")
