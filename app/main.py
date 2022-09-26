@@ -1,6 +1,7 @@
 import logging
 from fastapi import FastAPI
 from mangum import Mangum
+from tokens import TokenDTO
 from products_service import ProductsService
 from product import ProductDTO
 from dynamo_db_products_client import DynamoDbProductsClient
@@ -51,9 +52,13 @@ def update_products(userEmail: str):
 
 @app.post("/tokens/update")
 def update_tokens(userEmail: str):
-    tokens = tokensRepository.get_tokens(userEmail)
+    tgtgClient = TooGoodToGoClient(userEmail)
+    credentials = tgtgClient.get_credentials()
+    logger.info(credentials)
 
-    return tokens
+    tokensRepository.update_tokens(TokenDTO(credentials))
+
+    return tokensRepository.get_tokens()
 
 
 @app.get("/credentials")

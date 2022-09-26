@@ -1,3 +1,4 @@
+import datetime
 import logging
 import boto3
 from boto3.dynamodb.conditions import Key
@@ -23,6 +24,17 @@ class DynamoDbTokensClient:
 
         item = response["Items"][0]
         return TokenDTO(item)
+
+    def update_tokens(self, email: str, tokens: TokenDTO):
+        tokensTable = self.__get_tokens_table()
+
+        response = tokensTable.update_item(
+            Key={
+                "email": email
+            },
+            UpdateExpression="set accessToken=:accessToken, refreshToken=:refreshToken, userId=:userId,  lastUpdatedAt=:lastUpdatedAt",
+            ExpressionAttributeValues={
+                ":accessToken": tokens.accessToken, ":refreshToken": tokens.refreshToken, ":userId": tokens.userId, ":lastUpdatedAt": datetime.now().isoformat()})
 
     def __get_tokens_table(self):
         dynamoDb = boto3.resource("dynamodb")
