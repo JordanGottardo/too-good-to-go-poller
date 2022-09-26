@@ -24,6 +24,9 @@ class TooGoodToGoClient:
     def get_credentials(self):
         return self.client.get_credentials()
 
+    def get_credentials_fake(self):
+        return {"access_token": 1, "refresh_token": 2, "user_id": 3}
+
     def __initLogging(self):
         logging.basicConfig(format="%(threadName)s:%(message)s")
         self.logger = logging.getLogger("TooGoodToGoClient")

@@ -53,7 +53,7 @@ def update_products(userEmail: str):
 @app.post("/tokens/update")
 def update_tokens(userEmail: str):
     tgtgClient = TooGoodToGoClient(userEmail)
-    credentials = tgtgClient.get_credentials()
+    credentials = tgtgClient.get_credentials_fake()
     logger.info(credentials)
 
     tokensRepository.update_tokens(userEmail, TokenDTO.from_client_tokens(credentials))
