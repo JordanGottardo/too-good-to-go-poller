@@ -56,7 +56,7 @@ def update_tokens(userEmail: str):
     credentials = tgtgClient.get_credentials()
     logger.info(credentials)
 
-    tokensRepository.update_tokens(TokenDTO.from_client_tokens(credentials))
+    tokensRepository.update_tokens(userEmail, TokenDTO.from_client_tokens(credentials))
 
     return tokensRepository.get_tokens()
 
