@@ -10,7 +10,9 @@ class ProductDTO(object):
             self.decimals = productFromClient["item"]["price_including_taxes"]["decimals"]
             self.pickupLocation = productFromClient["pickup_location"]["address"]["address_line"]
             self.isAvailable = productFromClient["items_available"] > 0
-            self.store = Store(productFromClient["store"])
+            store = productFromClient["store"]
+            
+            self.store = Store(store["store_name"], store["store_location"]["address"]["address_line"], store["store_location"]["address"]["city"])
 
         if (productFromDb is not None):
             self.id = productFromDb["productId"]
