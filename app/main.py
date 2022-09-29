@@ -51,7 +51,7 @@ def get_available_products(userEmail: str):
 def update_products(userEmail: str):
     tokens = tokensRepository.get_tokens(userEmail)
     tgtgClient = TooGoodToGoClient(
-        None, tokens["accessToken"], tokens["refreshToken"], tokens["userId"])
+        None, tokens.accessToken, tokens.refreshToken, tokens.userId)
     products = tgtgClient.get_items()
 
     logger.info(f"Products from TgTg: {products}")
