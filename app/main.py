@@ -28,8 +28,8 @@ tokensClient = DynamoDbTokensClient()
 tokensRepository = TokensRepository(tokensClient)
 
 proxies = {
-    "http": os.getenv("PROXY_HTTP"),
-    "https": os.getenv("PROXY_HTTPS"),
+    "http": os.getenv("P1"),
+    "https": os.getenv("P2"),
     }
 
 app = FastAPI()
