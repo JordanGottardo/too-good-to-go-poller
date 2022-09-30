@@ -61,7 +61,7 @@ def update_products_for_all_users():
         try:
             __update_products_for(tokens)
         except Exception as e:
-            logger.error(f"An error occurred while updating products for user {tokens.userEmail} ")
+            logger.error(f"An error occurred while updating products for user {tokens.userEmail}. Error: {e}")
 
 
 @app.post("/products/update")
