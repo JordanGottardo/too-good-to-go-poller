@@ -55,6 +55,8 @@ def get_available_products(userEmail: str):
 
 @app.post("/products/update")
 def update_products(userEmail: str):
+    logger.info(f"Proxies= {proxies}")
+
     tokens = tokensRepository.get_tokens(userEmail)
     tgtgClient = TooGoodToGoClient(
         None, tokens.accessToken, tokens.refreshToken, tokens.userId, proxies)
