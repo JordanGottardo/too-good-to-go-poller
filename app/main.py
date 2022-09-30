@@ -58,7 +58,10 @@ def get_available_products(userEmail: str):
 def update_products_for_all_users():
     tokensList = tokensRepository.get_all_tokens()
     for tokens in tokensList:
-        __update_products_for(tokens)
+        try:
+            __update_products_for(tokens)
+        except Exception as e:
+            logger.error(f"An error occurred while updating products for user {tokens.userEmail} ")
 
 
 @app.post("/products/update")
