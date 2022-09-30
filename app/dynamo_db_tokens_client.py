@@ -22,7 +22,7 @@ class DynamoDbTokensClient:
         self.logger.info(
             f"DynamoDbTokensClient got response from DynamoDB: {response}")
 
-        return list(map(lambda t : TokenDTO.from_client_tokens(t), response["Items"]))
+        return list(map(lambda t : TokenDTO.from_db_tokens(t), response["Items"]))
 
     def get_tokens(self, email: str) -> TokenDTO:
         tokensTable = self.__get_tokens_table()
