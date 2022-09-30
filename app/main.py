@@ -1,4 +1,5 @@
 import logging
+import os
 from fastapi import FastAPI
 from mangum import Mangum
 from tokens import TokenDTO
@@ -26,6 +27,11 @@ productsService = ProductsService(productsRepository)
 tokensClient = DynamoDbTokensClient()
 tokensRepository = TokensRepository(tokensClient)
 
+proxies = {
+    "http": os.getenv("PROXY_HTTP"),
+    "https": os.getenv("PROXY_HTTPS")
+    }
+
 app = FastAPI()
 
 
@@ -51,7 +57,7 @@ def get_available_products(userEmail: str):
 def update_products(userEmail: str):
     tokens = tokensRepository.get_tokens(userEmail)
     tgtgClient = TooGoodToGoClient(
-        None, tokens.accessToken, tokens.refreshToken, tokens.userId)
+        None, tokens.accessToken, tokens.refreshToken, tokens.userId, proxies)
     products = tgtgClient.get_items()
 
     logger.info(f"Products from TgTg: {products}")
@@ -63,7 +69,7 @@ def update_products(userEmail: str):
 
 @app.post("/tokens/update")
 def update_tokens(userEmail: str):
-    tgtgClient = TooGoodToGoClient(userEmail)
+    tgtgClient = TooGoodToGoClient(userEmail, proxies)
     credentials = tgtgClient.get_credentials()
     logger.info(f"Gotten credentials {credentials}")
 
@@ -76,7 +82,7 @@ def update_tokens(userEmail: str):
 @app.get("/credentials")
 def get_credentials(userEmail: str):
 
-    tgtgClient = TooGoodToGoClient(userEmail)
+    tgtgClient = TooGoodToGoClient(userEmail, proxies)
     credentials = tgtgClient.get_credentials()
     logger.info(credentials)
 
