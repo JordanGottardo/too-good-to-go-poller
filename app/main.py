@@ -56,22 +56,15 @@ def get_available_products(userEmail: str):
 
 @app.post("/products/update")
 def update_products_for_all_users():
-    tokens = tokensRepository.get_all_tokens()
-    return tokens
+    tokensList = tokensRepository.get_all_tokens()
+    for tokens in tokensList:
+        __update_products_for(tokens)
 
 
 @app.post("/products/update")
 def update_products(userEmail: str):
     tokens = tokensRepository.get_tokens(userEmail)
-    tgtgClient = TooGoodToGoClient(
-        None, proxies, tokens.accessToken, tokens.refreshToken, tokens.userId)
-    products = tgtgClient.get_items()
-
-    logger.info(f"Products from TgTg: {products}")
-
-    domainProducts = __to_products_dto(products)
-
-    productsService.add_or_update_products(userEmail, domainProducts)
+    __update_products_for(tokens)
 
 
 @app.post("/tokens/update")
@@ -81,7 +74,7 @@ def update_tokens(userEmail: str):
     logger.info(f"Gotten credentials {credentials}")
 
     tokensRepository.update_tokens(
-        userEmail, TokenDTO.from_client_tokens(credentials))
+        userEmail, TokenDTO.from_client_tokens(credentials, userEmail))
 
     return tokensRepository.get_tokens(userEmail)
 
@@ -125,7 +118,6 @@ def __to_product_dto(product):
 
 
 def __to_product_response(product: ProductDTO):
-
     return {
         "productId": product.id,
         "price": product.price,
@@ -134,8 +126,20 @@ def __to_product_response(product: ProductDTO):
         "lastGottenAt": product.lastGottenAt,
         "lastUpdateAt": product.lastUpdatedAt,
         "storeName": product.store.name
-
     }
+
+def __update_products_for(tokens: TokenDTO):
+    tgtgClient = TooGoodToGoClient(
+    None, proxies, tokens.accessToken, tokens.refreshToken, tokens.userId)
+    products = tgtgClient.get_items()
+
+    logger.info(f"Products from TgTg: {products}")
+
+    domainProducts = __to_products_dto(products)
+
+    productsService.add_or_update_products(tokens.userEmail, domainProducts)
+    
+
 
 
 handler = Mangum(app)
