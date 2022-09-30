@@ -29,7 +29,7 @@ tokensRepository = TokensRepository(tokensClient)
 
 proxies = {
     "http": os.getenv("PROXY_HTTP"),
-    "https": os.getenv("PROXY_HTTPS")
+    "https": os.getenv("PROXY_HTTPS"),
     }
 
 app = FastAPI()
