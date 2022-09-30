@@ -11,6 +11,9 @@ class TokensRepository:
 
         self.tokensClient = tokensClient
 
+    def get_all_tokens(self) -> list[TokenDTO]:
+        return self.tokensClient.get_all_tokens()
+
     def get_tokens(self, email: str) -> TokenDTO:
         return self.tokensClient.get_tokens(email)
 

@@ -30,7 +30,7 @@ tokensRepository = TokensRepository(tokensClient)
 proxies = {
     "http": os.getenv("PROXY_HTTP"),
     "https": os.getenv("PROXY_HTTPS"),
-    }
+}
 
 app = FastAPI()
 
@@ -39,6 +39,7 @@ app = FastAPI()
 def update_products():
     logger.info("UpdateProducts invoked from timer")
     return {"Success2": "Pong2!!!!"}
+
 
 @app.get("/", name="test111")
 def test111():
@@ -54,10 +55,16 @@ def get_available_products(userEmail: str):
 
 
 @app.post("/products/update")
+def update_products_for_all_users():
+    tokens = tokensRepository.get_all_tokens()
+    return tokens
+
+
+@app.post("/products/update")
 def update_products(userEmail: str):
     tokens = tokensRepository.get_tokens(userEmail)
     tgtgClient = TooGoodToGoClient(
-        None,proxies, tokens.accessToken, tokens.refreshToken, tokens.userId)
+        None, proxies, tokens.accessToken, tokens.refreshToken, tokens.userId)
     products = tgtgClient.get_items()
 
     logger.info(f"Products from TgTg: {products}")
