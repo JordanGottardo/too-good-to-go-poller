@@ -35,18 +35,6 @@ proxies = {
 app = FastAPI()
 
 
-@app.post("/", name="UpdateProducts")
-def update_products():
-    logger.info("UpdateProducts invoked from timer")
-    return {"Success2": "Pong2!!!!"}
-
-
-@app.get("/", name="test111")
-def test111():
-    logger.info("test111 invoked from timer")
-    return {"Success111": "Pong111!!!!"}
-
-
 @app.get("/products")
 def get_available_products(userEmail: str):
     available_products = productsService.get_available_products(userEmail)
@@ -61,11 +49,12 @@ def update_products_for_all_users():
         try:
             __update_products_for(tokens)
         except Exception as e:
-            logger.error(f"An error occurred while updating products for user {tokens.userEmail}. Error: {e}")
+            logger.error(
+                f"An error occurred while updating products for user {tokens.userEmail}. Error: {e}")
 
 
 @app.post("/products/update")
-def update_products(userEmail: str):
+def update_products_for_user(userEmail: str):
     tokens = tokensRepository.get_tokens(userEmail)
     __update_products_for(tokens)
 
@@ -92,21 +81,6 @@ def get_credentials(userEmail: str):
     return credentials
 
 
-@app.post("/test")
-def test():
-    productsService.test()
-
-
-@app.post("/test2")
-def test():
-    productsClient.test2()
-
-
-@app.post("/test3")
-def test():
-    return productsClient.test3()
-
-
 @app.get("/ping", name="Healthcheck", tags=["Healthcheck"])
 async def healthcheck():
     return {"Success": "Pong!!!!"}
@@ -131,9 +105,10 @@ def __to_product_response(product: ProductDTO):
         "storeName": product.store.name
     }
 
+
 def __update_products_for(tokens: TokenDTO):
     tgtgClient = TooGoodToGoClient(
-    None, proxies, tokens.accessToken, tokens.refreshToken, tokens.userId)
+        None, proxies, tokens.accessToken, tokens.refreshToken, tokens.userId)
     products = tgtgClient.get_items()
 
     logger.info(f"Products from TgTg: {products}")
@@ -141,8 +116,6 @@ def __update_products_for(tokens: TokenDTO):
     domainProducts = __to_products_dto(products)
 
     productsService.add_or_update_products(tokens.userEmail, domainProducts)
-    
-
 
 
 handler = Mangum(app)
