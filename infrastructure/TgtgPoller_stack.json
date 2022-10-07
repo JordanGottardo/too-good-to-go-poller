@@ -68,6 +68,13 @@
                 "Timeout": 180
             }
         },
+        "TgtgLogGroup": {
+                "Type" : "AWS::Logs::LogGroup",
+                "Properties" : {
+                    "LogGroupName" : {"Fn::Join": ["", ["/aws/lambda/", {"Ref": "TgtgPollerLambda"}]]},
+                    "RetentionInDays" : 90
+                  }
+        },
         "tgtgTokens": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
