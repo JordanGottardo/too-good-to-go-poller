@@ -65,7 +65,13 @@
                     "ImageUri": "166718199143.dkr.ecr.eu-central-1.amazonaws.com/tgtg-poller:latest"
                 },
                 "PackageType": "Image",
-                "Timeout": 180
+                "Timeout": 180,
+                "Environment": {
+                    "Variables": {
+                        "PROXY_HTTP": "http-proxy-url",
+                        "PROXY_HTTPS": "https-proxy-url"
+                    }
+                }
             }
         },
         "TgtgPollerLambdaUrl": {
