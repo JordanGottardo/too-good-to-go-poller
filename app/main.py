@@ -41,6 +41,7 @@ def get_available_products(userEmail: str):
 
     return list(map(__to_product_response, available_products))
 
+
 @app.get("/products/{productId}")
 def product_exists(userEmail: str, productId: str):
     return productsService.product_exists(userEmail, productId)
@@ -48,22 +49,27 @@ def product_exists(userEmail: str, productId: str):
 
 @app.post("/products/update", status_code=status.HTTP_201_CREATED)
 def resilient_update_products_for_all_users(response: Response):
-    logger.info(f"Main {resilient_update_products_for_all_users.__name__} invoked")
+    logger.info(
+        f"Main {resilient_update_products_for_all_users.__name__} invoked")
 
-    
+    allUsersCompleted = True
+
     tokensList = tokensRepository.get_all_tokens()
-    
-    for tokens in tokensList:
+
+    for userTokens in tokensList:
+        singleUserCompleted = False
         for _ in range(5):
             try:
-                __update_products_for(tokens)
+                __update_products_for(userTokens)
+                singleUserCompleted = True
                 break
             except Exception as e:
                 logger.error(
-                    f"An error occurred while updating products for user {tokens.userEmail}. Error: {e}")
-                response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+                    f"An error occurred while updating products for user {userTokens.userEmail}. Error: {e}")
+        allUsersCompleted = allUsersCompleted and singleUserCompleted
 
-
+    if not allUsersCompleted:
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
 
 
 @app.post("/products/update")
