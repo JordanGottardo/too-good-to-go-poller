@@ -39,8 +39,6 @@ class DynamoDbProductsClient:
             },
             ProjectionExpression="productId")
 
-        self.logger.info(f"get response={response}")
-
         return "Item" in response
 
     def add_product(self, email, product: ProductDTO):

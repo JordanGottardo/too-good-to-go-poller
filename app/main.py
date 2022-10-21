@@ -1,6 +1,6 @@
 import logging
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, status, Response
 from mangum import Mangum
 from tokens import TokenDTO
 from products_service import ProductsService
@@ -37,19 +37,19 @@ app = FastAPI()
 
 @app.get("/products")
 def get_available_products(userEmail: str):
-    logger.info("get_available_products invoked")
     available_products = productsService.get_available_products(userEmail)
 
     return list(map(__to_product_response, available_products))
 
 @app.get("/products/{productId}")
 def product_exists(userEmail: str, productId: str):
-    logger.info("products exists invoked")
     return productsService.product_exists(userEmail, productId)
 
 
-@app.post("/products/update")
-def update_products_for_all_users():
+@app.post("/products/update", status_code=status.HTTP_201_CREATED)
+def update_products_for_all_users(response: Response):
+    logger.info(f"Main {update_products_for_all_users.__name__} invoked")
+
     tokensList = tokensRepository.get_all_tokens()
     for tokens in tokensList:
         try:
@@ -57,6 +57,7 @@ def update_products_for_all_users():
         except Exception as e:
             logger.error(
                 f"An error occurred while updating products for user {tokens.userEmail}. Error: {e}")
+            response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
 
 
 @app.post("/products/update")

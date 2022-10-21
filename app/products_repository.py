@@ -19,6 +19,9 @@ class ProductsRepository:
         return self.productsClient.product_exists(email, productId)
 
     def add_or_update_product(self, email: str, product: ProductDTO):
+        if self.productsClient.product_exists(email, product.id):
+            return self.productsClient.update_product(email, product)
+        
         return self.productsClient.add_product(email, product)
 
     def add_or_update_products(self, email: str, products: list[ProductDTO]):
