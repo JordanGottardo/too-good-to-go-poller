@@ -42,7 +42,8 @@ def get_available_products(userEmail: str):
     return list(map(__to_product_response, available_products))
 
 @app.get("/products")
-def get_available_products(userEmail: str, productId: str):
+def product_exists(userEmail: str, productId: str):
+    logger.info("products exists invoked")
     return productsService.product_exists(userEmail, productId)
 
 
