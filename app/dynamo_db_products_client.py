@@ -41,7 +41,7 @@ class DynamoDbProductsClient:
 
         self.logger.info(f"get response={response}")
 
-        return "Item" not in response
+        return "Item" in response
 
     def add_product(self, email, product: ProductDTO):
         productsTable = self.__get_products_table()
