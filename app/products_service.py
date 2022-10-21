@@ -20,6 +20,9 @@ class ProductsService:
 
         return available_products
 
+    def product_exists(self, email:str, productId: str) -> bool:
+        return self.productsRepository.product_exists(email, productId)
+
     def add_or_update_product(self, email: str, product: ProductDTO):
         return self.productsRepository.add_or_update_product(email, product)
 

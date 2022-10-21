@@ -15,8 +15,11 @@ class ProductsRepository:
     def get_available_products(self, email: str) -> list[ProductDTO]:
         return self.productsClient.get_available_products(email)
 
+    def product_exists(self, email:str, productId: str) -> bool:
+        return self.productsClient.product_exists(email, productId)
+
     def add_or_update_product(self, email: str, product: ProductDTO):
-        return self.productsClient.add_or_update_product(email, product)
+        return self.productsClient.add_product(email, product)
 
     def add_or_update_products(self, email: str, products: list[ProductDTO]):
         for product in products:

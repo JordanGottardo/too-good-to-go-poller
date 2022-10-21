@@ -41,6 +41,10 @@ def get_available_products(userEmail: str):
 
     return list(map(__to_product_response, available_products))
 
+@app.get("/products")
+def get_available_products(userEmail: str, productId: str):
+    return productsService.product_exists(userEmail, productId)
+
 
 @app.post("/products/update")
 def update_products_for_all_users():

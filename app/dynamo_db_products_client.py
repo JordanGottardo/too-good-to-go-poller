@@ -30,7 +30,20 @@ class DynamoDbProductsClient:
 
         return list(map(lambda p: ProductDTO.from_db_product(p), response["Items"]))
 
-    def add_or_update_product(self, email, product: ProductDTO):
+    def product_exists(self, email: str, productId: str) -> bool:
+        productsTable = self.__get_products_table()
+
+        response = productsTable.get_item(
+            Key={
+                "email": email, "productId": productId
+            },
+            ProjectionExpression="productId")
+
+        self.logger.info(f"get response={response}")
+        
+        return True
+
+    def add_product(self, email, product: ProductDTO):
         productsTable = self.__get_products_table()
 
         response = productsTable.update_item(
@@ -40,6 +53,17 @@ class DynamoDbProductsClient:
             UpdateExpression="set storeName=:storeName, storeAddress=:storeAddress, isAvailable=:isAvailable,  lastUpdatedAt=:lastUpdatedAt, lastGottenAt=:lastGottenAt, price=:price, decimals=:decimals, pickupLocation=:pickupLocation, storeCity=:storeCity",
             ExpressionAttributeValues={
                 ":storeName": product.store.name, ":storeAddress": product.store.address, ":isAvailable": product.isAvailable, ":lastUpdatedAt": datetime.now().isoformat(), ":lastGottenAt": None, ":price": product.price, ":decimals": product.decimals, ":pickupLocation": product.pickupLocation, ":storeCity": product.store.city, })
+
+    def update_product(self, email, product: ProductDTO):
+        productsTable = self.__get_products_table()
+
+        response = productsTable.update_item(
+            Key={
+                "email": email, "productId": product.id
+            },
+            UpdateExpression="set storeName=:storeName, storeAddress=:storeAddress, isAvailable=:isAvailable,  lastUpdatedAt=:lastUpdatedAt, price=:price, decimals=:decimals, pickupLocation=:pickupLocation, storeCity=:storeCity",
+            ExpressionAttributeValues={
+                ":storeName": product.store.name, ":storeAddress": product.store.address, ":isAvailable": product.isAvailable, ":lastUpdatedAt": datetime.now().isoformat(), ":price": product.price, ":decimals": product.decimals, ":pickupLocation": product.pickupLocation, ":storeCity": product.store.city, })
 
     def update_last_gotten_at(self, email: str, product: ProductDTO):
         productsTable = self.__get_products_table()
