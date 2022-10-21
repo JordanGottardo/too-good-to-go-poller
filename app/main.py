@@ -37,6 +37,7 @@ app = FastAPI()
 
 @app.get("/products")
 def get_available_products(userEmail: str):
+    logger.info("get_available_products invoked")
     available_products = productsService.get_available_products(userEmail)
 
     return list(map(__to_product_response, available_products))
