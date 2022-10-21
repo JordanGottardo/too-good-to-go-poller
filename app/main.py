@@ -47,17 +47,23 @@ def product_exists(userEmail: str, productId: str):
 
 
 @app.post("/products/update", status_code=status.HTTP_201_CREATED)
-def update_products_for_all_users(response: Response):
-    logger.info(f"Main {update_products_for_all_users.__name__} invoked")
+def resilient_update_products_for_all_users(response: Response):
+    logger.info(f"Main {resilient_update_products_for_all_users.__name__} invoked")
 
+    
     tokensList = tokensRepository.get_all_tokens()
+    
     for tokens in tokensList:
-        try:
-            __update_products_for(tokens)
-        except Exception as e:
-            logger.error(
-                f"An error occurred while updating products for user {tokens.userEmail}. Error: {e}")
-            response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        for _ in range(5):
+            try:
+                __update_products_for(tokens)
+                break
+            except Exception as e:
+                logger.error(
+                    f"An error occurred while updating products for user {tokens.userEmail}. Error: {e}")
+                response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+
+
 
 
 @app.post("/products/update")
