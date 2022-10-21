@@ -58,14 +58,14 @@ def resilient_update_products_for_all_users(response: Response):
 
     for userTokens in tokensList:
         singleUserCompleted = False
-        for _ in range(5):
+        for i in range(5):
             try:
                 __update_products_for(userTokens)
                 singleUserCompleted = True
                 break
             except Exception as e:
                 logger.error(
-                    f"An error occurred while updating products for user {userTokens.userEmail}. Error: {e}")
+                    f"[Try {i}] An error occurred while updating products for user {userTokens.userEmail}. Error: {e}")
         allUsersCompleted = allUsersCompleted and singleUserCompleted
 
     if not allUsersCompleted:
