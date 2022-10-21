@@ -40,8 +40,8 @@ class DynamoDbProductsClient:
             ProjectionExpression="productId")
 
         self.logger.info(f"get response={response}")
-        
-        return True
+
+        return response["Item"] is not None
 
     def add_product(self, email, product: ProductDTO):
         productsTable = self.__get_products_table()
