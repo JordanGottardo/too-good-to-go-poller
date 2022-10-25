@@ -14,6 +14,8 @@ from tokens_repository import TokensRepository
 from too_good_to_go_client import TooGoodToGoClient
 
 
+MAX_RETRIES_COUNT = 5
+
 logging.basicConfig(format="%(threadName)s:%(message)s")
 logger = logging.getLogger("Controller")
 logger.setLevel(logging.DEBUG)
@@ -58,7 +60,7 @@ def resilient_update_products_for_all_users(response: Response):
 
     for userTokens in tokensList:
         singleUserCompleted = False
-        for i in range(5):
+        for i in range(MAX_RETRIES_COUNT):
             try:
                 __update_products_for(userTokens)
                 singleUserCompleted = True
@@ -79,15 +81,22 @@ def update_products_for_user(userEmail: str):
 
 
 @app.post("/tokens/update")
-def update_tokens(userEmail: str):
+def resilient_update_tokens(userEmail: str, response: Response):
     tgtgClient = TooGoodToGoClient(userEmail, proxies)
-    credentials = tgtgClient.get_credentials()
-    logger.info(f"Gotten credentials {credentials}")
+    for i in range(MAX_RETRIES_COUNT):
+        try:
+            credentials = tgtgClient.get_credentials()
+            logger.info(f"Gotten credentials {credentials}")
 
-    tokensRepository.update_tokens(
-        userEmail, TokenDTO.from_client_tokens(credentials, userEmail))
+            tokensRepository.update_tokens(
+                userEmail, TokenDTO.from_client_tokens(credentials, userEmail))
 
-    return tokensRepository.get_tokens(userEmail)
+            return tokensRepository.get_tokens(userEmail)
+
+        except Exception as e:
+            logger.error(
+                f"[Try {i}] An error occurred while updating tokens for user {userEmail}. Error: {e}")
+            response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
 
 
 @app.get("/credentials")
