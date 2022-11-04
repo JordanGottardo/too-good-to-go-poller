@@ -33,6 +33,9 @@ class DynamoDbTokensClient:
         self.logger.info(
             f"DynamoDbTokensClient got response from DynamoDB: {response}")
 
+        if "Items" not in response:
+            return None
+        
         item = response["Items"][0]
         return TokenDTO.from_db_tokens(item)
 
