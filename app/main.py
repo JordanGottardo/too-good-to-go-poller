@@ -80,6 +80,22 @@ def update_products_for_user(userEmail: str):
     __update_products_for(tokens)
 
 
+@app.get("/tokens")
+def get_tokens(userEmail: str, response: Response):
+    try:
+        tokens = tokensRepository.get_tokens(userEmail)
+
+        if tokens is None:
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return
+
+        return tokens
+    except Exception as e:
+        logger.error(
+            f"[Try {i}] An error occurred while retrieving tokens for user {userEmail}. Error: {e}")
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+
+
 @app.post("/tokens/update")
 def resilient_update_tokens(userEmail: str, response: Response):
     tgtgClient = TooGoodToGoClient(userEmail, proxies)
