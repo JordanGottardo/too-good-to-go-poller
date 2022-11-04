@@ -92,7 +92,7 @@ def get_tokens(userEmail: str, response: Response):
         return tokens
     except Exception as e:
         logger.error(
-            f"[Try {i}] An error occurred while retrieving tokens for user {userEmail}. Error: {e}")
+            f"An error occurred while retrieving tokens for user {userEmail}. Error: {e}")
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
 
 
