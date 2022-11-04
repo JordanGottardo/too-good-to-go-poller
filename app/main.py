@@ -85,7 +85,7 @@ def get_tokens(userEmail: str, response: Response):
     try:
         tokens = tokensRepository.get_tokens(userEmail)
 
-        if tokens is None:
+        if not tokens:
             response.status_code = status.HTTP_404_NOT_FOUND
             return
 
