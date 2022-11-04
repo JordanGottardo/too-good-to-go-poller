@@ -33,7 +33,7 @@ class DynamoDbTokensClient:
         self.logger.info(
             f"DynamoDbTokensClient got response from DynamoDB: {response}")
 
-        if "Items" not in response:
+        if not response["Items"]:
             return None
         
         item = response["Items"][0]
