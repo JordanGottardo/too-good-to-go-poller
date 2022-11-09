@@ -6,7 +6,7 @@ from tokens import TokenDTO
 from products_service import ProductsService
 from product import ProductDTO
 from dynamo_db_products_client import DynamoDbProductsClient
-from products_repository import ProductsRepository
+from repos.products_repository import ProductsRepository
 from dynamo_db_tokens_client import DynamoDbTokensClient
 from tokens_repository import TokensRepository
 

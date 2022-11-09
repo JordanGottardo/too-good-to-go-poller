@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging
 from product import ProductDTO
-from products_repository import ProductsRepository
+from repos.products_repository import ProductsRepository
 
 
 class ProductsService:
