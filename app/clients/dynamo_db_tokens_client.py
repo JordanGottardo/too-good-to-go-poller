@@ -4,7 +4,7 @@ import boto3
 from boto3.dynamodb.conditions import Key
 from datetime import datetime
 
-from tokens import TokenDTO
+from entities.tokens import TokenDTO
 
 
 class DynamoDbTokensClient:

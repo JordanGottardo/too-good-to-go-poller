@@ -1,5 +1,5 @@
 from datetime import datetime
-from store import Store
+from entities.store import Store
 
 
 class ProductDTO(object):

@@ -4,7 +4,7 @@ import boto3
 from boto3.dynamodb.conditions import Key
 from boto3.dynamodb.conditions import Attr
 
-from product import ProductDTO
+from entities.product import ProductDTO
 
 
 class DynamoDbProductsClient:

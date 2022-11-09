@@ -1,7 +1,6 @@
-from datetime import datetime
 import logging
-from product import ProductDTO
-from repos.products_repository import ProductsRepository
+from entities.product import ProductDTO
+from repositories.products_repository import ProductsRepository
 
 
 class ProductsService:

@@ -2,16 +2,16 @@ import logging
 import os
 from fastapi import FastAPI, status, Response
 from mangum import Mangum
-from tokens import TokenDTO
-from products_service import ProductsService
-from product import ProductDTO
-from dynamo_db_products_client import DynamoDbProductsClient
-from repos.products_repository import ProductsRepository
-from dynamo_db_tokens_client import DynamoDbTokensClient
-from tokens_repository import TokensRepository
+from entities.tokens import TokenDTO
+from services.products_service import ProductsService
+from entities.product import ProductDTO
+from clients.dynamo_db_products_client import DynamoDbProductsClient
+from repositories.products_repository import ProductsRepository
+from clients.dynamo_db_tokens_client import DynamoDbTokensClient
+from repositories.tokens_repository import TokensRepository
 
 
-from too_good_to_go_client import TooGoodToGoClient
+from clients.too_good_to_go_client import TooGoodToGoClient
 
 
 MAX_RETRIES_COUNT = 5

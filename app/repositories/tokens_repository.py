@@ -1,6 +1,6 @@
 import logging
-from tokens import TokenDTO
-from dynamo_db_tokens_client import DynamoDbTokensClient
+from entities.tokens import TokenDTO
+from clients.dynamo_db_tokens_client import DynamoDbTokensClient
 
 
 class TokensRepository:

@@ -1,7 +1,7 @@
 import logging
-from product import ProductDTO
+from entities.product import ProductDTO
 
-from dynamo_db_products_client import DynamoDbProductsClient
+from clients.dynamo_db_products_client import DynamoDbProductsClient
 
 
 class ProductsRepository:
