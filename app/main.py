@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import os
 from fastapi import FastAPI, status, Response
@@ -15,6 +16,7 @@ from clients.too_good_to_go_client import TooGoodToGoClient
 
 
 MAX_RETRIES_COUNT = 5
+RETRY_SLEEP_IN_SECONDS = 10
 
 logging.basicConfig(format="%(threadName)s:%(message)s")
 logger = logging.getLogger("Controller")
@@ -50,7 +52,7 @@ def product_exists(userEmail: str, productId: str):
 
 
 @app.post("/products/update", status_code=status.HTTP_201_CREATED)
-def resilient_update_products_for_all_users(response: Response):
+async def resilient_update_products_for_all_users(response: Response):
     logger.info(
         f"Main {resilient_update_products_for_all_users.__name__} invoked")
 
@@ -68,6 +70,8 @@ def resilient_update_products_for_all_users(response: Response):
             except Exception as e:
                 logger.error(
                     f"[Try {i+1}/{MAX_RETRIES_COUNT}] An error occurred while updating products for user {userTokens.userEmail}. Error: {e}")
+                await asyncio.sleep(RETRY_SLEEP_IN_SECONDS)
+
         allUsersCompleted = allUsersCompleted and singleUserCompleted
 
     if not allUsersCompleted:
@@ -128,10 +132,6 @@ def get_credentials(userEmail: str):
 @app.get("/ping", name="Healthcheck", tags=["Healthcheck"])
 async def healthcheck():
     return {"Success": "Pong!!!!"}
-
-@app.delete("/test")
-async def testDelete():
-    return productsService.test()
 
 
 def __to_products_dto(products):
