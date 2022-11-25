@@ -31,14 +31,14 @@ class ProductsService:
 
         self.productsRepository.add_or_update_products(email, newProducts)
 
-        newProductsIds = map(lambda product: product.id, newProducts)
+        newProductsIds = list(map(lambda product: product.id, newProducts))
 
         self.logger.info(f"Added products ids {newProductsIds}")
         for newProductId in newProductsIds:
             self.logger.info(f"Added product id: {newProductId}")
 
-        productsIdsToDelete = map(lambda product: product.id, filter(
-            lambda product: product.id not in newProductsIds, oldProducts))
+        productsIdsToDelete = list(map(lambda product: product.id, filter(
+            lambda product: product.id not in newProductsIds, oldProducts)))
 
         self.logger.info(f"Will delete product ids {productsIdsToDelete}")
         for productIdToDelete in productsIdsToDelete:
