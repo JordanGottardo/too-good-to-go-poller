@@ -16,7 +16,7 @@ from clients.too_good_to_go_client import TooGoodToGoClient
 
 
 MAX_RETRIES_COUNT = 5
-RETRY_SLEEP_IN_SECONDS = 10
+RETRY_SLEEP_IN_SECONDS = 15
 
 logging.basicConfig(format="%(threadName)s:%(message)s")
 logger = logging.getLogger("Controller")
