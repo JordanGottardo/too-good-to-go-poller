@@ -29,9 +29,9 @@ class ProductsService:
         for newProduct in newProducts:
             self.logger.info(f"New product: {newProduct}")
 
-        self.productsRepository.add_or_update_products(email, newProducts)
-
         newProductsIds = list(map(lambda product: product.id, newProducts))
+
+        self.productsRepository.add_or_update_products(email, newProducts)
 
         self.logger.info(f"Added products ids {newProductsIds}")
         for newProductId in newProductsIds:
