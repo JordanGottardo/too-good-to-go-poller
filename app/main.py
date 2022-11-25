@@ -135,7 +135,7 @@ async def testDelete():
 
 
 def __to_products_dto(products):
-    return map(__to_product_dto, products)
+    return list(map(__to_product_dto, products))
 
 
 def __to_product_dto(product):

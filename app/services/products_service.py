@@ -28,11 +28,11 @@ class ProductsService:
 
         newProductsIds = []
 
-        for newProduct in newProducts:
-            self.logger.info(f"New product: {newProduct}")
-            newProductsIds.append(newProduct.id)
+        # for newProduct in newProducts:
+        #     self.logger.info(f"New product: {newProduct}")
+        #     newProductsIds.append(newProduct.id)
 
-        # newProductsIds = list(map(lambda product: product.id, newProducts))
+        newProductsIds = list(map(lambda product: product.id, newProducts))
 
 
         self.logger.info(f"Added products ids {newProductsIds}")
