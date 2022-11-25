@@ -129,6 +129,10 @@ def get_credentials(userEmail: str):
 async def healthcheck():
     return {"Success": "Pong!!!!"}
 
+@app.delete("/test")
+async def testDelete():
+    return productsService.test()
+
 
 def __to_products_dto(products):
     return map(__to_product_dto, products)

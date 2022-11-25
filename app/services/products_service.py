@@ -15,21 +15,29 @@ class ProductsService:
         available_products = self.productsRepository.get_available_products(
             email)
 
-        self.productsRepository.update_last_gotten_at(email, available_products)
+        self.productsRepository.update_last_gotten_at(
+            email, available_products)
 
         return available_products
 
-    def product_exists(self, email:str, productId: str) -> bool:
+    def product_exists(self, email: str, productId: str) -> bool:
         return self.productsRepository.product_exists(email, productId)
 
-    def add_or_update_product(self, email: str, product: ProductDTO):
-        return self.productsRepository.add_or_update_product(email, product)
+    def add_or_update_products(self, email: str, newProducts: list[ProductDTO]):
+        oldProducts = self.productsRepository.get_all_products(email)
 
-    def add_or_update_products(self, email: str, products: list[ProductDTO]):
-        return self.productsRepository.add_or_update_products(email, products)
+        self.productsRepository.add_or_update_products(email, newProducts)
 
-    def test(self):
-        return self.productsRepository.test()
+        newProductsIds = map(lambda product: product.id, newProducts)
+
+        productsIdsToDelete = map(lambda product: product.id, filter(
+            lambda product: product.id not in newProducts, oldProducts))
+
+        self.productsRepository.batch_delete_products(
+            email, productsIdsToDelete)
+
+    def test(self, email):
+        return self.productsRepository.batch_delete_products(email, ["530766", "569352"])
 
     def __initLogging(self):
         logging.basicConfig(format="%(threadName)s:%(message)s")

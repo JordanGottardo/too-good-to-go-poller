@@ -14,6 +14,15 @@ class DynamoDbProductsClient:
 
         self.logger.info(f"DynamoDbProductsClient Constructor")
 
+    def get_all_products(self, email: str) -> list[ProductDTO]:
+        productsTable = self.__get_products_table()
+
+        response = productsTable.query(
+            KeyConditionExpression=Key('email').eq(email)
+        )
+
+        return list(map(lambda p: ProductDTO.from_db_product(p), response["Items"]))
+
     def get_available_products(self, email: str) -> list[ProductDTO]:
         productsTable = self.__get_products_table()
 
@@ -73,6 +82,14 @@ class DynamoDbProductsClient:
             UpdateExpression="set lastGottenAt=:lastGottenAt",
             ExpressionAttributeValues={
                 ":lastGottenAt": datetime.now().isoformat()})
+
+    def batch_delete_products(self, email: str, productIds: list[str]):
+        productsTable = self.__get_products_table()
+
+        with productsTable.batch_writer() as batch:
+            for id in productIds:
+                batch.delete_item(
+                    Key={"email": email, "productId": id})
 
     def __get_products_table(self):
         dynamoDb = boto3.resource("dynamodb")
