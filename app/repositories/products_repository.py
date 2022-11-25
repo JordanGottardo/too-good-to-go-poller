@@ -40,9 +40,6 @@ class ProductsRepository:
     def batch_delete_products(self, email: str, productIds: list[str]):
         self.productsClient.batch_delete_products(email, productIds)
 
-    def test(self):
-        return self.productsClient.test()
-
     def __initLogging(self):
         logging.basicConfig(format="%(threadName)s:%(message)s")
         self.logger = logging.getLogger("ProductsRepository")
