@@ -26,10 +26,14 @@ class ProductsService:
     def add_or_update_products(self, email: str, newProducts: list[ProductDTO]):
         oldProducts = self.productsRepository.get_all_products(email)
 
+        newProductsIds = []
+
         for newProduct in newProducts:
             self.logger.info(f"New product: {newProduct}")
+            newProductsIds.append(newProduct.id)
 
-        newProductsIds = list(map(lambda product: product.id, newProducts))
+        # newProductsIds = list(map(lambda product: product.id, newProducts))
+
 
         self.logger.info(f"Added products ids {newProductsIds}")
         for newProductId in newProductsIds:
