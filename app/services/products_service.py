@@ -36,8 +36,8 @@ class ProductsService:
         self.productsRepository.batch_delete_products(
             email, productsIdsToDelete)
 
-    def test(self, email):
-        return self.productsRepository.batch_delete_products(email, ["530766", "569352"])
+    def test(self):
+        return self.productsRepository.batch_delete_products("jordangottardo@libero.it", ["530766", "569352"])
 
     def __initLogging(self):
         logging.basicConfig(format="%(threadName)s:%(message)s")
