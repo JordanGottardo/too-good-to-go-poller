@@ -67,7 +67,7 @@ def resilient_update_products_for_all_users(response: Response):
                 break
             except Exception as e:
                 logger.error(
-                    f"[Try {i}/{MAX_RETRIES_COUNT}] An error occurred while updating products for user {userTokens.userEmail}. Error: {e}")
+                    f"[Try {i+1}/{MAX_RETRIES_COUNT}] An error occurred while updating products for user {userTokens.userEmail}. Error: {e}")
         allUsersCompleted = allUsersCompleted and singleUserCompleted
 
     if not allUsersCompleted:
@@ -111,7 +111,7 @@ def resilient_update_tokens(userEmail: str, response: Response):
 
         except Exception as e:
             logger.error(
-                f"[Try {i}/{MAX_RETRIES_COUNT}] An error occurred while updating tokens for user {userEmail}. Error: {e}")
+                f"[Try {i+1}/{MAX_RETRIES_COUNT}] An error occurred while updating tokens for user {userEmail}. Error: {e}")
             response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
 
 
