@@ -31,11 +31,15 @@ class ProductsService:
         newProductsIds = map(lambda product: product.id, newProducts)
 
         self.logger.info(f"Added products ids {newProductsIds}")
+        for newProductId in newProductsIds:
+            self.logger.info(f"Added product id: {newProductId}")
 
         productsIdsToDelete = map(lambda product: product.id, filter(
             lambda product: product.id not in newProductsIds, oldProducts))
 
         self.logger.info(f"Will delete product ids {productsIdsToDelete}")
+        for productIdToDelete in productsIdsToDelete:
+            self.logger.info(f"Will delete product id: {productIdToDelete}")
 
         self.productsRepository.batch_delete_products(
             email, productsIdsToDelete)
