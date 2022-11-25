@@ -31,7 +31,7 @@ class ProductsService:
         newProductsIds = map(lambda product: product.id, newProducts)
 
         productsIdsToDelete = map(lambda product: product.id, filter(
-            lambda product: product.id not in newProducts, oldProducts))
+            lambda product: product.id not in newProductsIds, oldProducts))
 
         self.productsRepository.batch_delete_products(
             email, productsIdsToDelete)
