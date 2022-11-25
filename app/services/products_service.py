@@ -26,6 +26,9 @@ class ProductsService:
     def add_or_update_products(self, email: str, newProducts: list[ProductDTO]):
         oldProducts = self.productsRepository.get_all_products(email)
 
+        for newProduct in newProducts:
+            self.logger.info(f"New product: {newProduct}")
+
         self.productsRepository.add_or_update_products(email, newProducts)
 
         newProductsIds = map(lambda product: product.id, newProducts)

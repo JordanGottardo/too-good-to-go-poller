@@ -25,6 +25,9 @@ class ProductDTO(object):
             self.lastGottenAt = productFromDb["lastGottenAt"]
             self.lastUpdatedAt = productFromDb["lastUpdatedAt"]
 
+    def __str__(self):
+     return f"id: {self.id}, pickupLocation= {self.pickupLocation}"
+
     @classmethod
     def from_client_product(cls, productFromClient):
         return cls(productFromClient)
