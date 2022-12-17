@@ -101,7 +101,7 @@ def get_tokens(userEmail: str, response: Response):
 
 
 @app.post("/tokens/update")
-def resilient_update_tokens(userEmail: str, response: Response):
+async def resilient_update_tokens(userEmail: str, response: Response):
     tgtgClient = TooGoodToGoClient(userEmail, proxies)
     for i in range(MAX_RETRIES_COUNT):
         try:
@@ -116,7 +116,9 @@ def resilient_update_tokens(userEmail: str, response: Response):
         except Exception as e:
             logger.error(
                 f"[Try {i+1}/{MAX_RETRIES_COUNT}] An error occurred while updating tokens for user {userEmail}. Error: {e}")
-            response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+            await asyncio.sleep(RETRY_SLEEP_IN_SECONDS)
+    
+    response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
 
 
 @app.get("/credentials")
