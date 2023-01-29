@@ -161,7 +161,7 @@ def __to_product_response(product: ProductDTO):
 
 def __update_products_for(tokens: TokenDTO):
     tgtgClient = TooGoodToGoClient(
-        None, proxies, tokens.accessToken, tokens.refreshToken, tokens.userId)
+        None, proxies, tokens.accessToken, tokens.refreshToken, tokens.userId, tokens.cookie)
     products = tgtgClient.get_items()
 
     logger.info(f"Products from TgTg: {products}")
