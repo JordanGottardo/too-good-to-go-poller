@@ -13,7 +13,7 @@ class TokenDTO(object):
             self.refreshToken = tokensFromDatabase["refreshToken"]
             self.userId = tokensFromDatabase["userId"]
             self.userEmail = tokensFromDatabase["email"]
-            self.cookie = tokensFromClient["cookie"]
+            self.cookie = tokensFromDatabase["cookie"]
 
 
     @classmethod
