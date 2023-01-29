@@ -46,9 +46,9 @@ class DynamoDbTokensClient:
             Key={
                 "email": email
             },
-            UpdateExpression="set accessToken=:accessToken, refreshToken=:refreshToken, userId=:userId,  lastUpdatedAt=:lastUpdatedAt",
+            UpdateExpression="set accessToken=:accessToken, refreshToken=:refreshToken, userId=:userId, cookie=:cookie, lastUpdatedAt=:lastUpdatedAt",
             ExpressionAttributeValues={
-                ":accessToken": tokens.accessToken, ":refreshToken": tokens.refreshToken, ":userId": tokens.userId, ":lastUpdatedAt": datetime.now().isoformat()})
+                ":accessToken": tokens.accessToken, ":refreshToken": tokens.refreshToken, ":userId": tokens.userId, ":cookie":tokens.cookie,  ":lastUpdatedAt": datetime.now().isoformat()})
 
     def __get_tokens_table(self):
         dynamoDb = boto3.resource("dynamodb")

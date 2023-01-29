@@ -5,6 +5,7 @@ class TokenDTO(object):
             self.accessToken = tokensFromClient["access_token"]
             self.refreshToken = tokensFromClient["refresh_token"]
             self.userId = tokensFromClient["user_id"]
+            self.cookie = tokensFromClient["cookie"]
             self.userEmail = userEmail
 
         if (tokensFromDatabase is not None):
@@ -12,6 +13,7 @@ class TokenDTO(object):
             self.refreshToken = tokensFromDatabase["refreshToken"]
             self.userId = tokensFromDatabase["userId"]
             self.userEmail = tokensFromDatabase["email"]
+            self.cookie = tokensFromClient["cookie"]
 
 
     @classmethod
