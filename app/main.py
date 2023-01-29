@@ -102,7 +102,7 @@ def get_tokens(userEmail: str, response: Response):
 
 @app.post("/tokens/update")
 async def resilient_update_tokens(userEmail: str, response: Response):
-    logger.info(f"Updating tokens for user {userEmail}")
+    logger.info(f"Updating tokens for user: {userEmail}")
 
     tgtgClient = TooGoodToGoClient(userEmail, proxies)
     for i in range(MAX_RETRIES_COUNT):
