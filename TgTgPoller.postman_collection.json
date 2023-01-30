@@ -1,0 +1,345 @@
+{
+	"info": {
+		"_postman_id": "a92900b7-a10a-4376-9f5a-1c695d65bd69",
+		"name": "TgTgPoller",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20720305"
+	},
+	"item": [
+		{
+			"name": "Local",
+			"item": [
+				{
+					"name": "Get items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get credentials",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/credentials",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"credentials"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update products",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/products/update?userEmail=jordangottardo@libero.it",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"products",
+								"update"
+							],
+							"query": [
+								{
+									"key": "userEmail",
+									"value": "jordangottardo@libero.it"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lambda",
+			"item": [
+				{
+					"name": "Default endpoint",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{lambda-url}}",
+							"host": [
+								"{{lambda-url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{lambda-url}}products?userEmail=jordangottardo@libero.it",
+							"host": [
+								"{{lambda-url}}products"
+							],
+							"query": [
+								{
+									"key": "userEmail",
+									"value": "jordangottardo@libero.it"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product exists",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{lambda-url}}products?userEmail=jordangottardo@libero.it",
+							"host": [
+								"{{lambda-url}}products"
+							],
+							"query": [
+								{
+									"key": "userEmail",
+									"value": "jordangottardo@libero.it"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update products all users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{lambda-url}}products/update",
+							"host": [
+								"{{lambda-url}}products"
+							],
+							"path": [
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update products one user Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{lambda-url}}products/update?userEmail=jordangottardo@libero.it",
+							"host": [
+								"{{lambda-url}}products"
+							],
+							"path": [
+								"update"
+							],
+							"query": [
+								{
+									"key": "userEmail",
+									"value": "jordangottardo@libero.it"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get tokens",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{lambda-url}}tokens?userEmail=jordangottardo@libero.it",
+							"host": [
+								"{{lambda-url}}tokens"
+							],
+							"query": [
+								{
+									"key": "userEmail",
+									"value": "jordangottardo@libero.it"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[TgTg] Get credentials",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{lambda-url}}credentials?userEmail=jordangottardo@libero.it",
+							"host": [
+								"{{lambda-url}}credentials"
+							],
+							"query": [
+								{
+									"key": "userEmail",
+									"value": "jordangottardo@libero.it"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update tokens",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{lambda-url}}tokens/update?userEmail=jordangottardo@libero.it",
+							"host": [
+								"{{lambda-url}}tokens"
+							],
+							"path": [
+								"update"
+							],
+							"query": [
+								{
+									"key": "userEmail",
+									"value": "jordangottardo@libero.it"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{lambda-url}}test",
+							"host": [
+								"{{lambda-url}}test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://t6ga4hi7o4ek7gnivfalh26ufe0arfua.lambda-url.eu-central-1.on.aws/test2",
+							"protocol": "https",
+							"host": [
+								"t6ga4hi7o4ek7gnivfalh26ufe0arfua",
+								"lambda-url",
+								"eu-central-1",
+								"on",
+								"aws"
+							],
+							"path": [
+								"test2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://t6ga4hi7o4ek7gnivfalh26ufe0arfua.lambda-url.eu-central-1.on.aws/test3",
+							"protocol": "https",
+							"host": [
+								"t6ga4hi7o4ek7gnivfalh26ufe0arfua",
+								"lambda-url",
+								"eu-central-1",
+								"on",
+								"aws"
+							],
+							"path": [
+								"test3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "lambda-url",
+			"value": "https://aecez4ltodjrixxpdnmptvw6i40dhzzw.lambda-url.eu-central-1.on.aws/",
+			"type": "string"
+		}
+	]
+}
