@@ -15,8 +15,9 @@ from repositories.tokens_repository import TokensRepository
 from clients.too_good_to_go_client import TooGoodToGoClient
 
 
-MAX_RETRIES_COUNT = 5
-RETRY_SLEEP_IN_SECONDS = 15
+UPDATE_TOKENS_MAX_RETRIES_COUNT = 5
+UPDATE_PRODUCTS_MAX_RETRIES_COUNT = 2
+RETRY_SLEEP_IN_SECONDS = 20
 
 logging.basicConfig(format="%(threadName)s:%(message)s")
 logger = logging.getLogger("Controller")
@@ -62,14 +63,14 @@ async def resilient_update_products_for_all_users(response: Response):
 
     for userTokens in tokensList:
         singleUserCompleted = False
-        for i in range(MAX_RETRIES_COUNT):
+        for i in range(UPDATE_PRODUCTS_MAX_RETRIES_COUNT):
             try:
                 __update_products_for(userTokens)
                 singleUserCompleted = True
                 break
             except Exception as e:
                 logger.error(
-                    f"[Try {i+1}/{MAX_RETRIES_COUNT}] An error occurred while updating products for user {userTokens.userEmail}. Error: {e}")
+                    f"[Try {i+1}/{UPDATE_PRODUCTS_MAX_RETRIES_COUNT}] An error occurred while updating products for user {userTokens.userEmail}. Error: {e}")
                 await asyncio.sleep(RETRY_SLEEP_IN_SECONDS)
 
         allUsersCompleted = allUsersCompleted and singleUserCompleted
@@ -105,7 +106,7 @@ async def resilient_update_tokens(userEmail: str, response: Response):
     logger.info(f"Updating tokens for user {userEmail}")
 
     tgtgClient = TooGoodToGoClient(userEmail, proxies)
-    for i in range(MAX_RETRIES_COUNT):
+    for i in range(UPDATE_TOKENS_MAX_RETRIES_COUNT):
         try:
             credentials = tgtgClient.get_credentials()
             logger.info(f"Gotten credentials {credentials}")
@@ -117,7 +118,7 @@ async def resilient_update_tokens(userEmail: str, response: Response):
 
         except Exception as e:
             logger.error(
-                f"[Try {i+1}/{MAX_RETRIES_COUNT}] An error occurred while updating tokens for user {userEmail}. Error: {e}")
+                f"[Try {i+1}/{UPDATE_TOKENS_MAX_RETRIES_COUNT}] An error occurred while updating tokens for user {userEmail}. Error: {e}")
             await asyncio.sleep(RETRY_SLEEP_IN_SECONDS)
     
     response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR

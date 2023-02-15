@@ -234,7 +234,7 @@
             "Properties": {
                 "Description": "Polls Tgtg server periodically to get products and updates them in DB",
                 "Name": "tgtg-update-products",
-                "ScheduleExpression": "rate(10 minutes)",
+                "ScheduleExpression": "rate(6 minutes)",
                 "Targets": [
                     {
                         "Arn": { "Fn::GetAtt": ["TgtgPollerLambda", "Arn"] },
