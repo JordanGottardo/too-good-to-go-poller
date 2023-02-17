@@ -16,7 +16,7 @@ from clients.too_good_to_go_client import TooGoodToGoClient
 
 
 UPDATE_TOKENS_MAX_RETRIES_COUNT = 5
-UPDATE_PRODUCTS_MAX_RETRIES_COUNT = 2
+UPDATE_PRODUCTS_MAX_RETRIES_COUNT = 5
 RETRY_SLEEP_IN_SECONDS = 20
 
 logging.basicConfig(format="%(threadName)s:%(message)s")
